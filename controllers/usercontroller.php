@@ -34,6 +34,7 @@ public function login($email, $password) {
             $_SESSION['otp'] = $otp;
             $_SESSION['id'] = $fetchedID;
             $_SESSION['role'] = $fetchedrole;
+            $_SESSION['verified'] = false; // 🚫 Not yet verified
 
             // Try to send OTP
             if ($this->sendOTP($email, $otp, $username)) {
@@ -370,6 +371,7 @@ public function verifyOTP($enteredOTP) {
         // ✅ OTP is correct
         unset($_SESSION['otp']); // clear OTP once verified
         $_SESSION['verified'] = true;
+        
 
         // Redirect based on role
         if ($_SESSION['role'] === 'Admin') {

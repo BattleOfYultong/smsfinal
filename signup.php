@@ -50,7 +50,7 @@ include('connections/connections.php');
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" type="image/png" href="../assets/img/sms-logo.png" />
+  <link rel="icon" type="image/png" href="sms-logo.png" />
   <title>School Management System - Sign Up</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -61,17 +61,25 @@ include('connections/connections.php');
   <div class="bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl max-w-5xl w-full mx-4 flex flex-col md:flex-row overflow-hidden border border-gray-200">
     
     <!-- Left panel -->
-    <div class="md:w-1/2 p-10 flex flex-col justify-center items-start relative bg-blue-50">
-      <h1 class="text-3xl md:text-4xl font-extrabold text-blue-900 mb-3">Join Us at</h1>
-      <h2 class="text-4xl md:text-5xl font-extrabold text-blue-700 mb-6 leading-tight">SCHOOL MANAGEMENT SYSTEM</h2>
-      <p class="text-gray-700 mb-8 max-w-md">
-        Sign up to manage research proposals, track statuses, assign advisers and panels, and explore AI-powered categorization — all in one place.
-      </p>
+  <div class="md:w-1/2 p-10 flex flex-col justify-center items-center bg-blue-50 text-center space-y-5">
+  <!-- Image -->
+  <div class="w-full flex justify-center">
+    <img src="sms.png" alt="School Management System" class="max-w-xs md:max-w-sm">
+  </div>
 
-      <div class="absolute right-8 bottom-6 w-32 h-32">
-        <img src="../img/sms.png" alt="School Logo" class="w-full h-full object-contain" />
-      </div>
-    </div>
+  <!-- Headings -->
+  <h1 class="text-3xl md:text-4xl font-extrabold text-blue-900">Join Us at</h1>
+  <h2 class="text-4xl md:text-5xl font-extrabold text-blue-700 leading-tight">
+    SCHOOL MANAGEMENT SYSTEM
+  </h2>
+
+  <!-- Description -->
+  <p class="text-gray-700 max-w-md">
+    Sign up to manage research proposals, track statuses, assign advisers and panels, and explore
+    AI-powered categorization — all in one place.
+  </p>
+</div>
+
 
     <!-- Right panel -->
     <div class="md:w-1/2 bg-white p-8 flex flex-col justify-center">

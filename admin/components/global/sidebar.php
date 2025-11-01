@@ -89,7 +89,7 @@
                 <nav>
                     <div class="mb-4">
                         <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider px-2 mb-1">Main</p>
-                        <a href="#" class="flex items-center px-2 py-3 bg-indigo-50 rounded-lg text-indigo-700 font-medium">
+                        <a href="dashboard.php" class="flex items-center px-2 py-3 bg-indigo-50 rounded-lg text-indigo-700 font-medium">
                             <i class="fas fa-tachometer-alt mr-3"></i>
                             Dashboard
                         </a>
@@ -97,7 +97,7 @@
                     
                     <div class="mb-4">
                         <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider px-2 mb-1">Management</p>
-                        <a href="../cons/section.html" class="flex items-center px-2 py-2 text-gray-700 hover:bg-gray-100 rounded-lg mb-1">
+                        <a href="sectionassignment.php" class="flex items-center px-2 py-2 text-gray-700 hover:bg-gray-100 rounded-lg mb-1">
                             <i class="fas fa-user-graduate mr-3 w-5 text-center"></i>
                             Section Assignment Tool
                         </a>
