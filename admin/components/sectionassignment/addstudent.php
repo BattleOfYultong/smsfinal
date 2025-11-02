@@ -1,7 +1,10 @@
+  
+  
+  
   <div class="bg-white border border-gray-200 rounded-xl shadow-md p-6">
             <!-- Header -->
             <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4 space-y-3 md:space-y-0">
-                <h3 class="text-lg font-semibold text-gray-800">Student List</h3>
+                <h3 class="text-lg font-semibold text-gray-800">Student List For Section</h3>
 
                 <!-- Search + Add Button -->
                 <div class="flex items-center gap-2 relative w-full md:w-auto">

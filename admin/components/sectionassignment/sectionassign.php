@@ -57,49 +57,82 @@
                 </div>
 
                 <!-- Modal Body -->
-                <form class="p-6 space-y-6 text-blue-900">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block mb-2 font-semibold">Instructor Name</label>
-                            <input type="text" class="w-full border border-blue-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500">
-                        </div>
-                        <div>
-                            <label class="block mb-2 font-semibold">Subject</label>
-                            <input type="text" class="w-full border border-blue-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500">
-                        </div>
-                    </div>
+            <form method="POST" action="your_processing_file.php" class="p-6 space-y-6 text-blue-900">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+            <label class="block mb-2 font-semibold">Instructor Name</label>
+            <select name="teacherID" class="w-full border border-blue-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500" required>
+                <option value="">Select Teacher</option>
+                <?php foreach($teachers as $teacher): ?>
+                    <option value="<?= $teacher['id'] ?>"><?= htmlspecialchars($teacher['fullname']) ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div>
+            <label class="block mb-2 font-semibold">Subject</label>
+            <select name="subjectID" class="w-full border border-blue-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500" required>
+                <option value="">Select Subject</option>
+                <?php foreach($subjects as $subject): ?>
+                    <option value="<?= $subject['subjectID'] ?>"><?= htmlspecialchars($subject['subjectName']) ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+    </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div>
-                            <label class="block mb-2 font-semibold">Section</label>
-                            <input type="text" class="w-full border border-blue-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500">
-                        </div>
-                        <div>
-                            <label class="block mb-2 font-semibold">Room</label>
-                            <input type="text" class="w-full border border-blue-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500">
-                        </div>
-                        <div>
-                            <label class="block mb-2 font-semibold">Schedule</label>
-                            <input type="text" class="w-full border border-blue-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500">
-                        </div>
-                    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div>
+            <label class="block mb-2 font-semibold">Section</label>
+            <select name="sectionID" class="w-full border border-blue-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500" required>
+                <option value="">Select Section</option>
+                <?php foreach($sections as $section): ?>
+                    <option value="<?= $section['sectionID'] ?>"><?= htmlspecialchars($section['sectionName']) ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div>
+            <label class="block mb-2 font-semibold">Room</label>
+            <select name="roomID" class="w-full border border-blue-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500" required>
+                <option value="">Select Room</option>
+                <?php foreach($rooms as $room): ?>
+                    <option value="<?= $room['roomID'] ?>"><?= htmlspecialchars($room['roomName']) ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div>
+            <label class="block mb-2 font-semibold">Day</label>
+            <select name="day" class="w-full border border-blue-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500" required>
+                <option value="">Select Day</option>
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+            </select>
+        </div>
+    </div>
 
-                    <div>
-                        <label class="block mb-2 font-semibold">Additional Notes</label>
-                        <textarea rows="3" class="w-full border border-blue-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
-                    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+            <label class="block mb-2 font-semibold">Start Time</label>
+            <input type="time" name="startTime" class="w-full border border-blue-300 rounded-lg px-3 py-2" required>
+        </div>
+        <div>
+            <label class="block mb-2 font-semibold">End Time</label>
+            <input type="time" name="endTime" class="w-full border border-blue-300 rounded-lg px-3 py-2" required>
+        </div>
+    </div>
 
-                    <div class="flex justify-end gap-4 pt-4 border-t border-blue-100">
-                        <button type="button" data-modal-hide="assignSectionModal"
-                            class="px-4 py-2 rounded-lg border border-blue-400 text-blue-700 font-medium hover:bg-blue-50 transition">
-                            Cancel
-                        </button>
-                        <button type="submit"
-                            class="px-4 py-2 rounded-lg bg-blue-700 text-white font-medium hover:bg-blue-800 shadow-md transition">
-                            Save
-                        </button>
-                    </div>
-                </form>
+    <div>
+        <label class="block mb-2 font-semibold">Additional Notes</label>
+        <textarea name="notes" rows="3" class="w-full border border-blue-300 rounded-lg px-3 py-2"></textarea>
+    </div>
+
+    <div class="flex justify-end gap-4 pt-4 border-t border-blue-100">
+        <button type="button" data-modal-hide="assignSectionModal" class="px-4 py-2 rounded-lg border border-blue-400 text-blue-700 font-medium hover:bg-blue-50 transition">Cancel</button>
+        <button type="submit" class="px-4 py-2 rounded-lg bg-blue-700 text-white font-medium hover:bg-blue-800 shadow-md transition">Save</button>
+    </div>
+</form>
+
             </div>
         </div>
     </div>

@@ -151,11 +151,16 @@ include_once('../controllers/sectionassignmentcontroller.php');
     <!-- ========================================================= -->
     <!-- 🧩 Tables / Modules Grid -->
     <!-- ========================================================= -->
+
+         <div class="bg-white rounded-xl shadow-md p-4">
+            <?php include_once('components/sectionassignment/addsection.php') ?>
+        </div>
+        
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <!-- Student List Module -->
-        <div class="bg-white rounded-xl shadow-md p-4">
-            <?php include_once('components/sectionassignment/addstudent.php') ?>
-        </div>
+     
+
+        
 
         <!-- Section Assignment List Module -->
         <div class="bg-white rounded-xl shadow-md p-4">
@@ -163,10 +168,6 @@ include_once('../controllers/sectionassignmentcontroller.php');
         </div>
 
         <!-- Section List Module -->
-        <div class="bg-white rounded-xl shadow-md p-4">
-            <?php include_once('components/sectionassignment/addsection.php') ?>
-        </div>
-
         <!-- Subject List Module -->
         <div class="bg-white rounded-xl shadow-md p-4">
             <?php include_once('components/sectionassignment/addsubject.php') ?>

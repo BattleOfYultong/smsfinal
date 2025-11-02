@@ -58,6 +58,10 @@
 
                         <button class="text-red-600 hover:text-red-800 font-medium deleteBtnSection"
                             data-id="<?= $sections['sectionID'] ?>">Delete</button>
+
+
+                             <a href="this_section.php" class="text-green-600 hover:text-red-800 font-medium "
+                            >View</a>
                     </td>
                 </tr>
                 <?php endforeach ?>
