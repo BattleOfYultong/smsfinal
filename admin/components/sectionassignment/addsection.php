@@ -60,7 +60,7 @@
                             data-id="<?= $sections['sectionID'] ?>">Delete</button>
 
 
-                             <a href="this_section.php" class="text-green-600 hover:text-red-800 font-medium "
+                             <a href="this_section.php?section=<?php echo htmlspecialchars($sections['sectionID']) ?>" class="text-green-600 hover:text-red-800 font-medium "
                             >View</a>
                     </td>
                 </tr>
@@ -140,6 +140,22 @@
                                 <option value="">Select Semester</option>
                                 <option>1st</option>
                                 <option>2nd</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <?php 
+
+                            $fetchroom = new sectionAssignment();
+                            $fetchroom = $fetchroom->fetchRoom();
+                            
+                            ?>
+                            <label class="block mb-2 font-semibold">Room</label>
+                            <select name="roomID" class="w-full border border-indigo-300 rounded-lg px-3 py-2 focus:ring-indigo-500 focus:border-indigo-500">
+                                <option value="">Select Room</option>
+                                <?php foreach($fetchroom as $room): ?>
+                                <option value="<?php echo htmlspecialchars($room['roomID']) ?>"><?php echo htmlspecialchars($room['roomName']) ?></option>
+                                <?php endforeach ?>
                             </select>
                         </div>
                     </div>
@@ -236,6 +252,30 @@
                             <?php endforeach ?>
                         </select>
                     </div>
+
+
+                    
+                        <div>
+    <?php 
+        $fetchroom = new sectionAssignment();
+        $fetchroom = $fetchroom->fetchRoom();
+
+      
+    ?>
+
+    <label class="block mb-2 font-semibold">Room</label>
+    <select name="roomID" class="w-full border border-indigo-300 rounded-lg px-3 py-2 focus:ring-indigo-500 focus:border-indigo-500">
+        <option value="">Select Room</option>
+
+        <?php foreach($fetchroom as $room): ?>
+            <option 
+                value="<?php echo htmlspecialchars($room['roomID']); ?>"
+                <?php echo ($room['roomID'] == $sections['roomID']) ? 'selected' : ''; ?>>
+                <?php echo htmlspecialchars($room['roomName']); ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
+</div>
                 </div>
 
                 <div class="flex justify-end gap-4 pt-4 border-t border-indigo-100">

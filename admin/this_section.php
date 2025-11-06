@@ -6,6 +6,20 @@ include('components/global/auth.php');
 
 include_once('../controllers/sectionassignmentcontroller.php');
 
+
+if (isset($_GET['section'])) {
+    $sectionID = $_GET['section'];
+
+    $student = new student();
+    $section = $student->getSection($sectionID);
+
+    if ($section) {
+       
+    } else {
+        echo "Section not found.";
+    }
+}
+
 ?>
 
 

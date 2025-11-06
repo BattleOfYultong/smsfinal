@@ -47,12 +47,12 @@ class sectionAssignment {
         return $getTeacher;
     }
 
- public function addSection($sectionName, $yearLevel, $course, $adviserID, $schoolYear, $semester)
+ public function addSection($sectionName, $yearLevel, $course, $adviserID, $schoolYear, $semester, $roomID)
 {
     global $connections;
 
     $sql = "INSERT INTO section_tbl (sectionName, yearLevel, course, adviserID, schoolYear, semester)
-            VALUES ('$sectionName', '$yearLevel', '$course', '$adviserID', '$schoolYear', '$semester')";
+            VALUES ('$sectionName', '$yearLevel', '$course', '$adviserID', '$schoolYear', '$semester', '$roomID')";
     $result = mysqli_query($connections, $sql);
 
     if ($result) {
@@ -71,7 +71,7 @@ class sectionAssignment {
     }
 }
 
-public function updateSection($sectionID, $sectionName, $yearLevel, $course, $adviserID, $schoolYear, $semester)
+public function updateSection($sectionID, $sectionName, $yearLevel, $course, $adviserID, $schoolYear, $semester, $roomID)
 {
     global $connections;
 
@@ -81,7 +81,8 @@ public function updateSection($sectionID, $sectionName, $yearLevel, $course, $ad
                 course = '$course',
                 adviserID = '$adviserID',
                 schoolYear = '$schoolYear',
-                semester = '$semester'
+                semester = '$semester',
+                roomID = '$roomID'
             WHERE sectionID = '$sectionID'";
 
     $result = mysqli_query($connections, $sql);
@@ -146,6 +147,29 @@ public function fetchSectionList(){
 
         return $getsectionList;
 }
+
+     public function fetchRoom(){
+        global $connections;
+
+
+      $sql = "SELECT * FROM room_tbl WHERE roomStatus = 'Available'";
+        $result = mysqli_query($connections, $sql);
+
+        $fetchRoom = [];
+
+        if($result){
+            if(mysqli_num_rows($result) > 0){
+                while($row = mysqli_fetch_assoc($result)){
+                  $fetchRoom[] = $row;
+                }
+            }
+            else{
+                echo "No Data Found";
+            }
+        }
+
+        return $fetchRoom;
+    }
 
 
 
@@ -481,6 +505,158 @@ public function getAllAssignments() {
     return $assignments;
 }
 
+
+}
+
+class student {
+    public function addStudent($studentuserID, $sectionID, $student_name, $gender){
+        global $connections;
+
+        $sql = "INSERT INTO section_list_tbl (studentuserID, sectionID, student_name, gender)
+                VALUES ('$studentuserID', '$sectionID', '$student_name', '$gender')";
+        $result = mysqli_query($connections, $sql);
+
+        if ($result) {
+            echo "
+            <script>
+                alert('Student added successfully!');
+                window.location.href = '" . $_SERVER['HTTP_REFERER'] . "';
+            </script>";
+        } else {
+            $error = addslashes(mysqli_error($connections));
+            echo "
+            <script>
+                alert('Error adding student: $error');
+                window.location.href = '" . $_SERVER['HTTP_REFERER'] . "';
+            </script>";
+        }
+    }
+
+    public function modifyStudent($studentID, $studentuserID, $sectionID, $student_name, $gender){
+        global $connections;
+
+        $sql = "UPDATE section_list_tbl
+                SET studentuserID = '$studentuserID',
+                    sectionID = '$sectionID',
+                    student_name = '$student_name',
+                    gender = '$gender'
+                WHERE studentID = '$studentID'";
+        $result = mysqli_query($connections, $sql);
+
+        if ($result) {
+            echo "
+            <script>
+                alert('Student updated successfully!');
+                window.location.href = '" . $_SERVER['HTTP_REFERER'] . "';
+            </script>";
+        } else {
+            $error = addslashes(mysqli_error($connections));
+            echo "
+            <script>
+                alert('Error updating student: $error');
+                window.location.href = '" . $_SERVER['HTTP_REFERER'] . "';
+            </script>";
+        }
+    }
+
+    public function deleteStudent($studentID){
+        global $connections;
+
+        $sql = "DELETE FROM section_list_tbl WHERE studentID = '$studentID'";
+        $result = mysqli_query($connections, $sql);
+
+        if ($result) {
+            echo "
+            <script>
+                alert('Student deleted successfully!');
+                window.location.href = '" . $_SERVER['HTTP_REFERER'] . "';
+            </script>";
+        } else {
+            $error = addslashes(mysqli_error($connections));
+            echo "
+            <script>
+                alert('Error deleting student: $error');
+                window.location.href = '" . $_SERVER['HTTP_REFERER'] . "';
+            </script>";
+        }
+    }
+
+ public function getSection($sectionID){
+    global $connections;
+
+    $sql = "SELECT * FROM section_tbl WHERE sectionID = '$sectionID' LIMIT 1";
+    $result = mysqli_query($connections, $sql);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        // Fetch the first row like Laravel's first()
+        return mysqli_fetch_assoc($result);
+    } else {
+        return null;
+    }
+}
+
+  public function getStudentFromUsers(){
+        global $connections;
+
+        $sql = "SELECT * FROM users WHERE role = 'Student'";
+        $result = mysqli_query($connections, $sql);
+
+        $getStudents = [];
+
+        if($result){
+            if(mysqli_num_rows($result) > 0){
+                while($row = mysqli_fetch_assoc($result)){
+                   $getStudents[] = $row;
+                }
+            }
+            else{
+                echo "No Data Found";
+            }
+        }
+
+        return $getStudents;
+
+    }
+
+  public function studentlistinsection($sectionID){
+    global $connections;
+
+$sql = "
+    SELECT 
+        s.sectionName,
+        s.yearLevel,
+        s.course,
+        s.schoolYear,
+        s.semester,
+        a.username AS adviserName,
+        u.id AS studentID,
+        u.userid AS studentuserID,
+        u.username AS studentName,
+        sl.gender
+    FROM section_list_tbl sl
+    INNER JOIN section_tbl s ON sl.sectionID = s.sectionID
+    INNER JOIN users u ON sl.studentuserID = u.id
+    INNER JOIN users a ON s.adviserID = a.id
+    WHERE sl.sectionID = '$sectionID'
+    ORDER BY u.username ASC
+";
+    $result = mysqli_query($connections, $sql);
+    $sectionlist = [];
+
+    if ($result) {
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $sectionlist[] = $row;
+            }
+        } else {
+          
+        }
+    } else {
+        echo "Query Error: " . mysqli_error($connections);
+    }
+
+    return $sectionlist;
+}
 
 }
 

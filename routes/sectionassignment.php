@@ -13,9 +13,10 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $adviserID = $_POST['adviserID'];
     $schoolYear = $_POST['schoolYear'];
     $semester = $_POST['semester'];
+    $roomID = $_POST['roomID'];
 
     $insertsection = new sectionAssignment();
-    $insertsection->addSection($sectionName, $yearLevel, $course, $adviserID, $schoolYear, $semester);
+    $insertsection->addSection($sectionName, $yearLevel, $course, $adviserID, $schoolYear, $semester, $roomID);
 }
 
  if (isset($_POST['updatesection'])) {
@@ -28,7 +29,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $sectionID = $_POST['sectionID'];
 
     $insertsection = new sectionAssignment();
-    $insertsection->updateSection($sectionID,$sectionName, $yearLevel, $course, $adviserID, $schoolYear, $semester);
+    $insertsection->updateSection($sectionID,$sectionName, $yearLevel, $course, $adviserID, $schoolYear, $semester, $roomID);
 }
 
 }
