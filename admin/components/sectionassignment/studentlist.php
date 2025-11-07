@@ -17,52 +17,33 @@
                     <th class="px-4 py-3">Student Name</th>
                     <th class="px-4 py-3">Year Level</th>
                     <th class="px-4 py-3">Course</th>
+                    <th class="px-4 py-3">Section</th>
                     <th class="px-4 py-3">Adviser</th>
                     <th class="px-4 py-3 text-center">Actions</th>
                 </tr>
             </thead>
 
             <tbody class="divide-y divide-gray-100">
-
-                <!-- SAMPLE STATIC ROWS -->
+                <?php 
+                $studentlist = new studentlist();
+                $studentlist = $studentlist->studentlist();
+                ?> 
+                
+                <?php foreach($studentlist as $student): ?>
                 <tr class="hover:bg-gray-50">
-                    <td class="px-4 py-2">2024-001</td>
-                    <td class="px-4 py-2">Juan Dela Cruz</td>
-                    <td class="px-4 py-2">1st Year</td>
-                    <td class="px-4 py-2">BSIT</td>
-                    <td class="px-4 py-2">Mr. Santos</td>
+                    <td class="px-4 py-2"><?php echo htmlspecialchars($student['studentID']) ?></td>
+                    <td class="px-4 py-2"><?php echo htmlspecialchars($student['primaryName']) ?></td>
+                    <td class="px-4 py-2"><?php echo htmlspecialchars($student['yearLevel']) ?></td>
+                    <td class="px-4 py-2"><?php echo htmlentities($student['course']) ?> </td>
+                      <td class="px-4 py-2"><?php echo htmlentities($student['sectionName']) ?></td>
+                    <td class="px-4 py-2"><?php echo htmlentities($student['adviserName']) ?></td>
                     <td class="px-4 py-2 text-center">
-                        <a href="view_course.php?student=2024-001" class="text-indigo-600 hover:text-indigo-800 font-medium">
-                            View Course
+                        <a href="viewstudent.php?student=<?php echo htmlspecialchars($student['studentID']) ?>" class="text-indigo-600 hover:text-indigo-800 font-medium">
+                            View Student
                         </a>
                     </td>
                 </tr>
-
-                <tr class="hover:bg-gray-50">
-                    <td class="px-4 py-2">2024-002</td>
-                    <td class="px-4 py-2">Maria Clara</td>
-                    <td class="px-4 py-2">2nd Year</td>
-                    <td class="px-4 py-2">BSBA</td>
-                    <td class="px-4 py-2">Mrs. Reyes</td>
-                    <td class="px-4 py-2 text-center">
-                        <a href="view_course.php?student=2024-002" class="text-indigo-600 hover:text-indigo-800 font-medium">
-                            View Course
-                        </a>
-                    </td>
-                </tr>
-
-                <tr class="hover:bg-gray-50">
-                    <td class="px-4 py-2">2024-003</td>
-                    <td class="px-4 py-2">Pedro Penduko</td>
-                    <td class="px-4 py-2">3rd Year</td>
-                    <td class="px-4 py-2">BSCE</td>
-                    <td class="px-4 py-2">Engr. Cruz</td>
-                    <td class="px-4 py-2 text-center">
-                        <a href="view_course.php?student=2024-003" class="text-indigo-600 hover:text-indigo-800 font-medium">
-                            View Course
-                        </a>
-                    </td>
-                </tr>
+                <?php endforeach ?>
 
             </tbody>
         </table>

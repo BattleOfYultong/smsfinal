@@ -671,3 +671,171 @@ $sql = "
 
 }
 
+class studentlist {
+   
+   
+    public function studentlist(){
+    global $connections;
+
+$sql = "
+    SELECT 
+        s.sectionName,
+        s.yearLevel,
+        s.course,
+        s.schoolYear,
+        s.semester,
+        sl.studentID as primarytableID,
+        sl.student_name as primaryName,
+        a.username AS adviserName,
+        u.id AS studentID,
+        u.userid AS studentuserID,
+        u.username AS studentName,
+        sl.gender
+    FROM section_list_tbl sl
+    INNER JOIN section_tbl s ON sl.sectionID = s.sectionID
+    INNER JOIN users u ON sl.studentuserID = u.id   -- CHANGE TO LEFT JOIN
+    INNER JOIN users a ON s.adviserID = a.id        -- Keep adviser join flexible too
+    ORDER BY u.username ASC
+";
+
+    $result = mysqli_query($connections, $sql);
+    $sectionlist = [];
+
+    if ($result) {
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $sectionlist[] = $row;
+            }
+        } else {
+          
+        }
+    } else {
+        echo "Query Error: " . mysqli_error($connections);
+    }
+
+    return $sectionlist;
+}
+
+public function assignsubject($assignmentID, $id){
+    global $connections;
+
+    $sql = "INSERT INTO student_subject_tbl (assignmentID, studentID) VALUES ($assignmentID, $id)";
+    $result = mysqli_query($connections, $sql);
+
+      if ($result){
+            echo "
+            <script>
+                alert('Subject Added Successfully!');
+                window.location.href = '" . $_SERVER['HTTP_REFERER'] . "';
+            </script>";
+        } else {
+            $error = addslashes(mysqli_error($connections));
+            echo "
+            <script>
+                alert('Subject Add Failed: $error');
+                window.location.href = '" . $_SERVER['HTTP_REFERER'] . "';
+            </script>";
+        }
+
+    
+}
+
+public function getstudent ($studentID){
+
+      global $connections;
+
+        $sql = "SELECT * FROM users WHERE id = $studentID ";
+        $result = mysqli_query($connections, $sql);
+
+        $getStudents = [];
+
+      if ($result && mysqli_num_rows($result) > 0) {
+        // Fetch the first row like Laravel's first()
+        return mysqli_fetch_assoc($result);
+    } else {
+        return null;
+    }
+
+        return $getStudents;
+
+}
+
+public function removesubject($student_subject_id){
+    global $connections;
+
+    $sql = "DELETE FROM student_subject_tbl WHERE student_subject_id = $student_subject_id";
+    $result = mysqli_query($connections, $sql);
+
+
+     if ($result){
+            echo "
+            <script>
+                alert('Subject Removed Successfully!');
+                window.location.href = '" . $_SERVER['HTTP_REFERER'] . "';
+            </script>";
+        } else {
+            $error = addslashes(mysqli_error($connections));
+            echo "
+            <script>
+                alert('Subject Removed Successfully: $error');
+                window.location.href = '" . $_SERVER['HTTP_REFERER'] . "';
+            </script>";
+        }
+
+
+
+}
+
+public function fetchsubjectforstudent($studentID){   
+    global $connections;
+
+    $sql = "
+        SELECT 
+            sst.student_subject_id,
+            sub.subjectName,
+            u.username AS teacherName,
+            sec.sectionName,
+            r.roomName,
+            sa.day,
+            sa.startTime,
+            sa.endTime,
+            sa.notes
+
+        FROM student_subject_tbl sst
+        INNER JOIN section_assignments sa ON sst.assignmentID = sa.assignmentID
+        INNER JOIN subject_tbl sub ON sa.subjectID = sub.subjectID
+        INNER JOIN users u ON sa.teacherID = u.id AND u.role = 'Teacher'
+        INNER JOIN section_tbl sec ON sa.sectionID = sec.sectionID
+        INNER JOIN room_tbl r ON sa.roomID = r.roomID
+
+        WHERE sst.studentID = '$studentID'
+    ";
+
+    return mysqli_query($connections, $sql);
+}
+
+public function getAllAssignments() {
+    global $connections;
+
+    $sql = "SELECT *
+            FROM section_assignments sa
+            JOIN users u ON sa.teacherID = u.id AND u.role = 'teacher'
+            JOIN subject_tbl s ON sa.subjectID = s.subjectID
+            JOIN section_tbl sec ON sa.sectionID = sec.sectionID
+            JOIN room_tbl r ON sa.roomID = r.roomID
+            ORDER BY sa.day, sa.startTime ASC";
+
+    $result = mysqli_query($connections, $sql);
+    $assignments = [];
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $assignments[] = $row;
+        }
+    }
+
+    return $assignments;
+}
+
+}
+
