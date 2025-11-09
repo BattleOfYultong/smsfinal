@@ -13,14 +13,13 @@ include('../controllers/roomcontroller.php');
   <?php include('components/global/header.php') ?>
 </head>
 
-<body class="bg-gray-100 font-sans">
+<body class="bg-white font-sans">
+    <section class="flex h-screen overflow-hidden">
+      <?php include_once('components/global/sidebar.php') ?>
 
-<div class="flex h-screen overflow-hidden">
-  <!-- Sidebar -->
-  <?php include_once('components/global/sidebar.php'); ?>
-
-  <!-- Main Content -->
-  <div class="flex-1 overflow-auto p-5 space-y-10">
+        <!-- Main Content -->
+        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-white content-transition lg:ml-72" id="main-content">
+              <div class="flex-1 overflow-auto p-5 space-y-10">
 
   
 
@@ -307,9 +306,13 @@ include('../controllers/roomcontroller.php');
 </div>
 
   </div>
-</div>
+        </main>
+    </section>
 
+    <script src="../javascript/sidebar.js">
 
+    </script>
+</body>
 
 
 
@@ -369,5 +372,5 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 </script>
-</body>
+
 </html>

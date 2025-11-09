@@ -66,23 +66,14 @@ if (isset($_GET['student'])) {
   }
 </style>
 </head>
-<body class="bg-gray-100 font-sans">
-<div class="flex h-screen overflow-hidden">
+<body class="bg-white font-sans">
+    <section class="flex h-screen overflow-hidden">
+      <?php include_once('components/global/sidebar.php') ?>
 
-
-  <!-- Sidebar -->
-  <?php 
-    include_once('components/global/sidebar.php')
-  ?>
-
-<!-- modals alert -->
-
-
-
-
-<!--  -->
- <!-- Main Content Wrapper -->
-<div class="flex-1 overflow-auto p-6 max-w-7xl mx-auto space-y-6">
+        <!-- Main Content -->
+        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-white content-transition lg:ml-72" id="main-content">
+            <section class="min-h-screen p-4 sm:p-6 lg:p-8 transition-all duration-300">
+             <div class="flex-1 overflow-auto p-6 max-w-7xl mx-auto space-y-6">
 
 
 
@@ -97,13 +88,12 @@ if (isset($_GET['student'])) {
 
         </div>
     </div>
+            </section>
+        </main>
+    </section>
 
-</div>
+    <script src="../javascript/sidebar.js">
 
-
-
-
-
-
+    </script>
 </body>
 </html>

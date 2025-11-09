@@ -1,7 +1,6 @@
 <?php
 // auth 
-include('components/global/auth.php')
-
+include('components/global/auth.php');
 ?>
 
 <!DOCTYPE html>
@@ -12,447 +11,189 @@ include('components/global/auth.php')
     <title>SMS Dashboard</title>
     <?php include_once('components/global/header.php') ?>
     
-  
+ 
 </head>
-<body class="bg-gray-100 font-sans">
-    <div class="flex h-screen overflow-hidden">
-        <!-- Sidebar -->
-       <?php include('components/global/sidebar.php') ?>
-        
-        <!-- Main Content -->
-        <div class="flex-1 overflow-auto">
-            <!-- Top Navigation -->
-           <?php include('components/global/nav.php') ?>  
-           
-            
-            <!-- Dashboard Content -->
-            <div class="p-6">
-                <?php include('components/global/greetings.php') ?>
-                <!-- Stats Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-                    <!-- Enrollment -->
-                    <div class="bg-white rounded-lg shadow-sm p-6 card-hover transition-all duration-300">
-                        <div class="flex justify-between items-start mb-4">
-                            <div>
-                                <p class="text-sm font-medium text-gray-500">Enrollment</p>
-                                <h3 class="text-2xl font-bold text-gray-800 mt-1">2,458</h3>
-                            </div>
-                            <div class="bg-indigo-100 text-indigo-800 p-3 rounded-lg">
-                                <i class="fas fa-user-graduate"></i>
-                            </div>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <p class="text-sm text-green-500 font-medium">
-                                <i class="fas fa-arrow-up mr-1"></i>
-                                12.5%
-                            </p>
-                            <p class="text-sm text-gray-500">vs last semester</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Payments -->
-                    <div class="bg-white rounded-lg shadow-sm p-6 card-hover transition-all duration-300">
-                        <div class="flex justify-between items-start mb-4">
-                            <div>
-                                <p class="text-sm font-medium text-gray-500">Payments</p>
-                                <h3 class="text-2xl font-bold text-gray-800 mt-1">₱4.2M</h3>
-                            </div>
-                            <div class="bg-green-100 text-green-800 p-3 rounded-lg">
-                                <i class="fas fa-money-bill-wave"></i>
-                            </div>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <p class="text-sm text-green-500 font-medium">
-                                <i class="fas fa-arrow-up mr-1"></i>
-                                8.2%
-                            </p>
-                            <p class="text-sm text-gray-500">vs last month</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Courses -->
-                    <div class="bg-white rounded-lg shadow-sm p 6 card-hover transition-all duration-300">
-                        <div class="flex justify-between items-start mb-4">
-                            <div>
-                                <p class="text-sm font-medium text-gray-500">Courses</p>
-                                <h3 class="text-2xl font-bold text-gray-800 mt-1">98</h3>
-                            </div>
-                            <div class="bg-blue-100 text-blue-800 p-3 rounded-lg">
-                                <i class="fas fa-book"></i>
-                            </div>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <p class="text-sm text-green-500 font-medium">
-                                <i class="fas fa-arrow-up mr-1"></i>
-                                3.5%
-                            </p>
-                            <p class="text-sm text-gray-500">vs last year</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Faculty -->
-                    <div class="bg-white rounded-lg shadow-sm p-6 card-hover transition-all duration-300">
-                        <div class="flex justify-between items-start mb-4">
-                            <div>
-                                <p class="text-sm font-medium text-gray-500">Faculty</p>
-                                <h3 class="text-2xl font-bold text-gray-800 mt-1">184</h3>
-                            </div>
-                            <div class="bg-purple-100 text-purple-800 p-3 rounded-lg">
-                                <i class="fas fa-chalkboard-teacher"></i>
-                            </div>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <p class="text-sm text-green-500 font-medium">
-                                <i class="fas fa-arrow-up mr-1"></i>
-                                5.1%
-                            </p>
-                            <p class="text-sm text-gray-500">vs last year</p>
-                        </div>
-                    </div>
-                </div>
-                
-          <!-- Main Dashboard Content -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-                    <!-- Enrollment Chart -->
-                   <div class="bg-white rounded-xl shadow-sm p-6 lg:col-span-2 card-hover">
-    <div class="flex justify-between items-center mb-6">
-        <h2 class="text-lg font-semibold text-gray-800">Enrollment Trends</h2>
-        <div class="flex space-x-2">
-            <button class="px-3 py-1 text-xs bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors" id="semesterBtn">Semester</button>
-            <button class="px-3 py-1 text-xs bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 transition-colors" id="yearBtn">Year</button>
-            <button class="px-3 py-1 text-xs bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 transition-colors" id="programBtn">Program</button>
-        </div>
-    </div>
-    <div class="h-64 flex items-center justify-center">
-        <img src="graph.png" alt="Enrollment Graph" class="w-full h-full object-cover rounded-lg hover:scale-105 transition-transform duration-300">
-    </div>
-</div>
+<body class="bg-white font-sans">
+    <section class="flex h-screen overflow-hidden">
+      <?php include_once('components/global/sidebar.php') ?>
 
-                    
-                     <!-- Recent Activities -->
-                    <div class="bg-white rounded-xl shadow-sm p-6 card-hover">
-                        <div class="flex justify-between items-center mb-6">
-                            <h2 class="text-lg font-semibold text-gray-800">Recent Activities</h2>
-                            <button class="text-indigo-600 text-sm font-medium hover:text-indigo-800 transition-colors">View All</button>
+        <!-- Main Content -->
+        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-white content-transition lg:ml-72" id="main-content">
+            <section class="min-h-screen p-4 sm:p-6 lg:p-8 transition-all duration-300">
+                <?php include_once('components/global/greetings.php') ?>
+                <div class="max-w-7xl mx-auto">
+                    <!-- Header -->
+                    <div class="mb-8">
+                        <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">Dashboard</h1>
+                        <p class="text-gray-600 text-sm sm:text-base">Welcome back! Here's what's happening today.</p>
+                    </div>
+
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+                        <!-- Card 1 -->
+                        <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow border-l-4 border-blue-900">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-users text-blue-900 text-xl"></i>
+                                </div>
+                                <span class="text-sm text-green-600 font-medium">+12%</span>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-800">1,234</h3>
+                            <p class="text-gray-600 text-sm">Total Students</p>
                         </div>
-                        <div class="space-y-4">
-                            <div class="activity-item flex items-start p-2 rounded-lg cursor-pointer">
-                                <div class="bg-indigo-100 text-indigo-800 p-2 rounded-lg mr-3 mt-1">
-                                    <i class="fas fa-user-plus"></i>
+                        
+                        <!-- Card 2 -->
+                        <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow border-l-4 border-green-600">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-chalkboard-teacher text-green-600 text-xl"></i>
                                 </div>
-                                <div>
-                                    <p class="text-sm font-medium">12 new enrollments</p>
-                                    <p class="text-xs text-gray-500">Today, 9:42 AM</p>
+                                <span class="text-sm text-green-600 font-medium">+5%</span>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-800">87</h3>
+                            <p class="text-gray-600 text-sm">Active Teachers</p>
+                        </div>
+                        
+                        <!-- Card 3 -->
+                        <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow border-l-4 border-purple-600">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-book text-purple-600 text-xl"></i>
+                                </div>
+                                <span class="text-sm text-green-600 font-medium">+8%</span>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-800">42</h3>
+                            <p class="text-gray-600 text-sm">Active Courses</p>
+                        </div>
+
+                        <!-- Card 4 -->
+                        <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow border-l-4 border-yellow-600">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-door-open text-yellow-600 text-xl"></i>
+                                </div>
+                                <span class="text-sm text-green-600 font-medium">+3%</span>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-800">28</h3>
+                            <p class="text-gray-600 text-sm">Classrooms</p>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                        <!-- Recent Activity Card -->
+                        <div class="bg-white rounded-xl shadow-md p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-semibold text-gray-800">Recent Activity</h3>
+                                <button class="text-blue-900 hover:text-blue-700 text-sm font-medium">View All</button>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="flex items-start space-x-3 pb-4 border-b border-gray-100">
+                                    <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-user-plus text-blue-900"></i>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-sm text-gray-800 font-medium">New student enrolled</p>
+                                        <p class="text-xs text-gray-500 truncate">John Doe joined Grade 10-A</p>
+                                        <p class="text-xs text-gray-400 mt-1">2 hours ago</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3 pb-4 border-b border-gray-100">
+                                    <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-check text-green-600"></i>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-sm text-gray-800 font-medium">Schedule updated</p>
+                                        <p class="text-xs text-gray-500 truncate">Math class rescheduled</p>
+                                        <p class="text-xs text-gray-400 mt-1">5 hours ago</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-calendar text-purple-600"></i>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-sm text-gray-800 font-medium">Exam scheduled</p>
+                                        <p class="text-xs text-gray-500 truncate">Final exams for Grade 12</p>
+                                        <p class="text-xs text-gray-400 mt-1">1 day ago</p>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="activity-item flex items-start p-2 rounded-lg cursor-pointer">
-                                <div class="bg-green-100 text-green-800 p-2 rounded-lg mr-3 mt-1">
-                                    <i class="fas fa-file-invoice-dollar"></i>
-                                </div>
-                                <div>
-                                    <p class="text-sm font-medium">32 tuition payments processed</p>
-                                    <p class="text-xs text-gray-500">Today, 11:30 AM</p>
-                                </div>
+                        </div>
+
+                        <!-- Quick Links Card -->
+                        <div class="bg-white rounded-xl shadow-md p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-semibold text-gray-800">Quick Links</h3>
+                                <button class="text-blue-900 hover:text-blue-700 text-sm font-medium">Customize</button>
                             </div>
-                            <div class="activity-item flex items-start p-2 rounded-lg cursor-pointer">
-                                <div class="bg-yellow-100 text-yellow-800 p-2 rounded-lg mr-3 mt-1">
-                                    <i class="fas fa-chalkboard-teacher"></i>
-                                </div>
-                                <div>
-                                    <p class="text-sm font-medium">Faculty meeting scheduled</p>
-                                    <p class="text-xs text-gray-500">Yesterday, 3:15 PM</p>
-                                </div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <a href="sectionassignment.php" class="p-4 bg-blue-50 hover:bg-blue-100 rounded-lg text-center transition-colors group">
+                                    <i class="fas fa-user-graduate text-blue-900 text-2xl mb-2"></i>
+                                    <p class="text-sm text-gray-700 font-medium">Section Assignment</p>
+                                </a>
+                                <a href="teachershedmap.php" class="p-4 bg-green-50 hover:bg-green-100 rounded-lg text-center transition-colors group">
+                                    <i class="fas fa-clipboard-list text-green-600 text-2xl mb-2"></i>
+                                    <p class="text-sm text-gray-700 font-medium">Schedule Mapping</p>
+                                </a>
+                                <a href="examtimetable.php" class="p-4 bg-purple-50 hover:bg-purple-100 rounded-lg text-center transition-colors group">
+                                    <i class="fas fa-calendar-alt text-purple-600 text-2xl mb-2"></i>
+                                    <p class="text-sm text-gray-700 font-medium">Exam Timetable</p>
+                                </a>
+                                <a href="roomavailability.php" class="p-4 bg-yellow-50 hover:bg-yellow-100 rounded-lg text-center transition-colors group">
+                                    <i class="fas fa-door-open text-yellow-600 text-2xl mb-2"></i>
+                                    <p class="text-sm text-gray-700 font-medium">Room Checker</p>
+                                </a>
                             </div>
-                            <div class="activity-item flex items-start p-2 rounded-lg cursor-pointer">
-                                <div class="bg-purple-100 text-purple-800 p-2 rounded-lg mr-3 mt-1">
-                                    <i class="fas fa-calendar-alt"></i>
-                                </div>
-                                <div>
-                                    <p class="text-sm font-medium">Class schedules updated</p>
-                                    <p class="text-xs text-gray-500">Yesterday, 5:45 PM</p>
-                                </div>
-                            </div>
-                            <div class="activity-item flex items-start p-2 rounded-lg cursor-pointer">
-                                <div class="bg-blue-100 text-blue-800 p-2 rounded-lg mr-3 mt-1">
-                                    <i class="fas fa-flask"></i>
-                                </div>
-                                <div>
-                                    <p class="text-sm font-medium">3 new research proposals</p>
-                                    <p class="text-xs text-gray-500">2 days ago</p>
-                                </div>
-                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Upcoming Events -->
+                    <div class="bg-white rounded-xl shadow-md p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-gray-800">Upcoming Events</h3>
+                            <button class="text-blue-900 hover:text-blue-700 text-sm font-medium">Add Event</button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b-2 border-blue-900">
+                                        <th class="text-left py-3 px-4 text-sm font-semibold text-gray-700">Event</th>
+                                        <th class="text-left py-3 px-4 text-sm font-semibold text-gray-700 hidden sm:table-cell">Date</th>
+                                        <th class="text-left py-3 px-4 text-sm font-semibold text-gray-700 hidden md:table-cell">Time</th>
+                                        <th class="text-left py-3 px-4 text-sm font-semibold text-gray-700">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                                        <td class="py-3 px-4 text-sm text-gray-800 font-medium">Parent-Teacher Meeting</td>
+                                        <td class="py-3 px-4 text-sm text-gray-600 hidden sm:table-cell">Nov 15, 2025</td>
+                                        <td class="py-3 px-4 text-sm text-gray-600 hidden md:table-cell">2:00 PM</td>
+                                        <td class="py-3 px-4"><span class="px-3 py-1 text-xs bg-green-100 text-green-700 rounded-full font-medium">Confirmed</span></td>
+                                    </tr>
+                                    <tr class="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                                        <td class="py-3 px-4 text-sm text-gray-800 font-medium">Science Fair</td>
+                                        <td class="py-3 px-4 text-sm text-gray-600 hidden sm:table-cell">Nov 20, 2025</td>
+                                        <td class="py-3 px-4 text-sm text-gray-600 hidden md:table-cell">9:00 AM</td>
+                                        <td class="py-3 px-4"><span class="px-3 py-1 text-xs bg-yellow-100 text-yellow-700 rounded-full font-medium">Pending</span></td>
+                                    </tr>
+                                    <tr class="hover:bg-blue-50 transition-colors">
+                                        <td class="py-3 px-4 text-sm text-gray-800 font-medium">Sports Day</td>
+                                        <td class="py-3 px-4 text-sm text-gray-600 hidden sm:table-cell">Nov 25, 2025</td>
+                                        <td class="py-3 px-4 text-sm text-gray-600 hidden md:table-cell">8:00 AM</td>
+                                        <td class="py-3 px-4"><span class="px-3 py-1 text-xs bg-blue-100 text-blue-700 rounded-full font-medium">Scheduled</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Second Row -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
-                    <!-- Accreditation Status -->
-                    <div class="bg-white rounded-lg shadow-sm p-6">
-                        <h2 class="text-lg font-semibold text-gray-800 mb-6">Accreditation Status</h2>
-                        <div class="space-y-4">
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-sm font-medium">Computer Science</span>
-                                    <span class="text-sm font-medium text-green-500">Level IV</span>
-                                </div>
-                                <div class="w-full bg-gray-200 rounded-full h-2">
-                                    <div class="bg-green-500 h-2 rounded-full" style="width: 100%"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-sm font-medium">Business Administration</span>
-                                    <span class="text-sm font-medium text-green-500">Level III</span>
-                                </div>
-                                <div class="w-full bg-gray-200 rounded-full h-2">
-                                    <div class="bg-green-400 h-2 rounded-full" style="width: 90%"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-sm font-medium">Engineering</span>
-                                    <span class="text-sm font-medium text-yellow-500">Level II</span>
-                                </div>
-                                <div class="w-full bg-gray-200 rounded-full h-2">
-                                    <div class="bg-yellow-500 h-2 rounded-full" style="width: 70%"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-sm font-medium">Education</span>
-                                    <span class="text-sm font-medium text-blue-500">In Progress</span>
-                                </div>
-                                <div class="w-full bg-gray-200 rounded-full h-2">
-                                    <div class="bg-blue-500 h-2 rounded-full" style="width: 45%"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Class Scheduling -->
-                    <div class="bg-white rounded-lg shadow-sm p-6">
-                        <div class="flex justify-between items-center mb-6">
-                            <h2 class="text-lg font-semibold text-gray-800">Class Scheduling</h2>
-                            <button class="text-indigo-600 text-sm font-medium">View All</button>
-                        </div>
-                        <div class="space-y-4">
-                            <div class="border rounded-lg p-3 hover:border-indigo-300 transition-colors">
-                                <div class="flex justify-between">
-                                    <p class="font-medium">CS 101 - Introduction</p>
-                                    <span class="text-xs bg-indigo-100 text-indigo-800 px-2 py-1 rounded-full">MW 8:00-9:30</span>
-                                </div>
-                                <p class="text-xs text-gray-500 mt-1">Room 302, Dr. Smith</p>
-                            </div>
-                            <div class="border rounded-lg p-3 hover:border-indigo-300 transition-colors">
-                                <div class="flex justify-between">
-                                    <p class="font-medium">MATH 202 - Calculus II</p>
-                                    <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">TTh 10:00-11:30</span>
-                                </div>
-                                <p class="text-xs text-gray-500 mt-1">Room 205, Dr. Johnson</p>
-                            </div>
-                            <div class="border rounded-lg p-3 hover:border-indigo-300 transition-colors">
-                                <div class="flex justify-between">
-                                    <p class="font-medium">ENGL 101 - Composition</p>
-                                    <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">MWF 1:00-2:00</span>
-                                </div>
-                                <p class="text-xs text-gray-500 mt-1">Room 101, Prof. Williams</p>
-                            </div>
-                            <div class="border rounded-lg p-3 hover:border-indigo-300 transition-colors">
-                                <div class="flex justify-between">
-                                    <p class="font-medium">PHYS 210 - Physics Lab</p>
-                                    <span class="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded-full">F 2:00-5:00</span>
-                                </div>
-                                <p class="text-xs text-gray-500 mt-1">Science Bldg., Dr. Brown</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Online Learning -->
-                    <div class="bg-white rounded-lg shadow-sm p-6">
-                        <h2 class="text-lg font-semibold text-gray-800 mb-6">Online Learning Status</h2>
-                        <div class="space-y-4">
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-sm font-medium">Active Courses</span>
-                                    <span class="text-sm font-medium">78%</span>
-                                </div>
-                                <div class="w-full bg-gray-200 rounded-full h-2">
-                                    <div class="bg-indigo-500 h-2 rounded-full" style="width: 78%"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-sm font-medium">Completed Assignments</span>
-                                    <span class="text-sm font-medium">62%</span>
-                                </div>
-                                <div class="w-full bg-gray-200 rounded-full h-2">
-                                    <div class="bg-green-500 h-2 rounded-full" style="width: 62%"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-sm font-medium">Student Engagement</span>
-                                    <span class="text-sm font-medium">89%</span>
-                                </div>
-                                <div class="w-full bg-gray-200 rounded-full h-2">
-                                    <div class="bg-blue-500 h-2 rounded-full" style="width: 89%"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mt-6 grid grid-cols-2 gap-4">
-                            <div class="text-center">
-                                <div class="text-2xl font-bold mb-1">4,325</div>
-                                <div class="text-xs text-gray-500">Active Students</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="text-2xl font-bold mb-1">168</div>
-                                <div class="text-xs text-gray-500">Online Instructors</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Third Row -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-                    <!-- Co-curricular Activities -->
-                    <div class="bg-white rounded-lg shadow-sm p-6">
-                        <div class="flex justify-between items-center mb-6">
-                            <h2 class="text-lg font-semibold text-gray-800">Co-curricular Activities</h2>
-                            <button class="text-indigo-600 text-sm font-medium">View All</button>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div class="border rounded-lg p-4">
-                                <div class="flex items-center mb-3">
-                                    <div class="bg-red-100 text-red-800 p-2 rounded-lg mr-3">
-                                        <i class="fas fa-headphones"></i>
-                                    </div>
-                                    <h3 class="font-medium">Music Club</h3>
-                                </div>
-                                <p class="text-xs text-gray-500 mb-2">Meets every Wednesday at 4 PM</p>
-                                <div class="flex justify-between text-xs">
-                                    <span class="text-gray-500">42 Members</span>
-                                    <span class="text-indigo-600 font-medium">Active</span>
-                                </div>
-                            </div>
-                            <div class="border rounded-lg p-4">
-                                <div class="flex items-center mb-3">
-                                    <div class="bg-green-100 text-green-800 p-2 rounded-lg mr-3">
-                                        <i class="fas fa-code"></i>
-                                    </div>
-                                    <h3 class="font-medium">Coding Club</h3>
-                                </div>
-                                <p class="text-xs text-gray-500 mb-2">Meets every Friday at 3 PM</p>
-                                <div class="flex justify-between text-xs">
-                                    <span class="text-gray-500">36 Members</span>
-                                    <span class="text-indigo-600 font-medium">Active</span>
-                                </div>
-                            </div>
-                            <div class="border rounded-lg p-4">
-                                <div class="flex items-center mb-3">
-                                    <div class="bg-blue-100 text-blue-800 p-2 rounded-lg mr-3">
-                                        <i class="fas fa-futbol"></i>
-                                    </div>
-                                    <h3 class="font-medium">Football Team</h3>
-                                </div>
-                                <p class="text-xs text-gray-500 mb-2">Practices Mon-Thu at 5 PM</p>
-                                <div class="flex justify-between text-xs">
-                                    <span class="text-gray-500">24 Members</span>
-                                    <span class="text-indigo-600 font-medium">Active</span>
-                                </div>
-                            </div>
-                            <div class="border rounded-lg p-4">
-                                <div class="flex items-center mb-3">
-                                    <div class="bg-yellow-100 text-yellow-800 p-2 rounded-lg mr-3">
-                                        <i class="fas fa-microscope"></i>
-                                    </div>
-                                    <h3 class="font-medium">Science Club</h3>
-                                </div>
-                                <p class="text-xs text-gray-500 mb-2">Meets every Tuesday at 4:30 PM</p>
-                                <div class="flex justify-between text-xs">
-                                    <span class="text-gray-500">28 Members</span>
-                                    <span class="text-indigo-600 font-medium">Active</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Research Projects -->
-                    <div class="bg-white rounded-lg shadow-sm p-6">
-                        <div class="flex justify-between items-center mb-6">
-                            <h2 class="text-lg font-semibold text-gray-800">CRAD Research Projects</h2>
-                            <button class="text-indigo-600 text-sm font-medium">View All</button>
-                        </div>
-                        <div class="space-y-4">
-                            <div class="flex items-start border-b pb-4">
-                                <div class="bg-indigo-100 text-indigo-800 p-2 rounded-lg mr-3 mt-1">
-                                    <i class="fas fa-flask"></i>
-                                </div>
-                                <div class="flex-1">
-                                    <div class="flex justify-between">
-                                        <h3 class="font-medium">AI in Education</h3>
-                                        <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">Active</span>
-                                    </div>
-                                    <p class="text-xs text-gray-500 mt-1">Dr. Rodriguez, Budget: ₱250,000</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start border-b pb-4">
-                                <div class="bg-blue-100 text-blue-800 p-2 rounded-lg mr-3 mt-1">
-                                    <i class="fas fa-atom"></i>
-                                </div>
-                                <div class="flex-1">
-                                    <div class="flex justify-between">
-                                        <h3 class="font-medium">Renewable Energy</h3>
-                                        <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">Active</span>
-                                    </div>
-                                    <p class="text-xs text-gray-500 mt-1">Dr. Chen, Budget: ₱350,000</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start border-b pb-4">
-                                <div class="bg-purple-100 text-purple-800 p-2 rounded-lg mr-3 mt-1">
-                                    <i class="fas fa-seedling"></i>
-                                </div>
-                                <div class="flex-1">
-                                    <div class="flex justify-between">
-                                        <h3 class="font-medium">Sustainable Agriculture</h3>
-                                        <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">Pending</span>
-                                    </div>
-                                    <p class="text-xs text-gray-500 mt-1">Dr. Garcia, Budget: ₱180,000</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start">
-                                <div class="bg-orange-100 text-orange-800 p-2 rounded-lg mr-3 mt-1">
-                                    <i class="fas fa-heartbeat"></i>
-                                </div>
-                                <div class="flex-1">
-                                    <div class="flex justify-between">
-                                        <h3 class="font-medium">Health Informatics</h3>
-                                        <span class="text-xs bg-red-100 text-red-800 px-2 py-1 rounded-full">Completed</span>
-                                    </div>
-                                    <p class="text-xs text-gray-500 mt-1">Dr. Wong, Budget: ₱210,000</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <script>
-        // Responsive sidebar toggle functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            // In a real implementation, you would fetch data here
-            console.log('Dashboard loaded');
-            
-            // Example of adding interactivity to cards
-            const cards = document.querySelectorAll('.card-hover');
-            cards.forEach(card => {
-                card.addEventListener('click', function() {
-                    console.log(`Clicked on ${this.querySelector('h3').textContent}`);
-                });
-            });
-        });
+            </section>
+        </main>
+    </section>
+
+    <script src="../javascript/sidebar.js">
+
     </script>
 </body>
 </html>

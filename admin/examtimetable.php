@@ -16,60 +16,16 @@ include_once('../controllers/timetablecontroller.php')
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Exam Timetable</title>
   <?php include_once('components/global/header.php') ?>
-<style>
-  :root {
-    --primary: #4f46e5;
-    --secondary: #10b981;
-  }
-  .sidebar { transition: all 0.3s; }
-  tr.selected { background-color: #dbeafe; }
-  @media print {
-    body * { visibility: hidden; }
-    #certificateContent, #certificateContent * { visibility: visible; }
-    #certificateContent { position: absolute; top: 0; left: 0; width: 100%; }
-  }
-  .certificate {
-    width: 100%;
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 40px;
-    border: 5px solid var(--primary);
-    text-align: center;
-    position: relative;
-    background: #fff;
-  }
-  .certificate table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  .certificate table, .certificate th, .certificate td {
-    border: 1px solid #333;
-  }
-  .certificate th, .certificate td {
-    padding: 6px;
-    text-align: center;
-    font-size: 0.9rem;
-  }
-</style>
+
 </head>
-<body class="bg-gray-100 font-sans">
-<div class="flex h-screen overflow-hidden">
+  <body class="bg-white font-sans">
+    <section class="flex h-screen overflow-hidden">
+      <?php include_once('components/global/sidebar.php') ?>
 
-
-  <!-- Sidebar -->
-  <?php 
-    include_once('components/global/sidebar.php')
-  ?>
-
-<!-- modals alert -->
-
-
-
-
-<!--  -->
- <!-- Main Content Wrapper -->
-<div class="flex-1 overflow-auto p-6 max-w-7xl mx-auto space-y-6">
+        <!-- Main Content -->
+        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-white content-transition lg:ml-72" id="main-content">
+            <section class="min-h-screen p-4 sm:p-6 lg:p-8 transition-all duration-300">
+               <div class="flex-1 overflow-auto p-6 max-w-7xl mx-auto space-y-6">
 
   <!-- ========================================================= -->
   <!-- 🧩 Exam Timetable Table -->
@@ -260,8 +216,14 @@ include_once('../controllers/timetablecontroller.php')
 
 </div>
 
+            </section>
+        </main>
+    </section>
 
-</div>
+    <script src="../javascript/sidebar.js">
+
+    </script>
+</body>
 <script>
 document.querySelectorAll('.deleteBtnid').forEach(btn => {
     btn.addEventListener('click', () => { // <-- use btn here, not id
@@ -286,5 +248,5 @@ document.querySelectorAll('.deleteBtnid').forEach(btn => {
 
 
 
-</body>
+
 </html>
