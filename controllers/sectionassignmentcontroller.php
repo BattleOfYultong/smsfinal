@@ -127,29 +127,34 @@ public function deleteSection($sectionID){
 }
 
 public function fetchSectionList(){
-          global $connections;
+    global $connections;
 
-       $sql = "SELECT * 
+    $sql = "
+        SELECT 
+            s.*,
+            u.username AS adviserName,
+            r.roomName,
+            IFNULL(r.capacity, 0) AS capacity,
+            (SELECT COUNT(*) FROM section_list_tbl sl WHERE sl.sectionID = s.sectionID) AS studentCount
         FROM section_tbl s
-        INNER JOIN users u ON s.adviserID = u.id
-        INNER JOIN room_tbl r ON s.roomID = r.roomID";
+        LEFT JOIN users u ON s.adviserID = u.id
+        LEFT JOIN room_tbl r ON s.roomID = r.roomID
+    ";
 
-        $result = mysqli_query($connections, $sql);
+    $result = mysqli_query($connections, $sql);
 
-        $getsectionList = [];
+    $getsectionList = [];
 
-        if($result){
-            if(mysqli_num_rows($result) > 0){
-                while($row = mysqli_fetch_assoc($result)){
-                   $getsectionList[] = $row;
-                }
-            }
-            else{
-                echo "No Data Found";
-            }
+    if($result){
+        while($row = mysqli_fetch_assoc($result)){
+            $getsectionList[] = $row;
         }
+    } else {
+        // Optional: log the SQL error
+        // error_log("fetchSectionList SQL error: " . mysqli_error($connections));
+    }
 
-        return $getsectionList;
+    return $getsectionList;
 }
 
      public function fetchRoom(){
@@ -403,38 +408,110 @@ public function fetchSectionList(){
         return $getsectionList;
 }
 
-        public function createAssignment($teacherID, $subjectID, $sectionID, $roomID, 
+ public function createAssignment($teacherID, $subjectID, $sectionID, $roomID, 
         $day, $startTime, $endTime, $notes){
-            global $connections;
-
-
-            $sql = "INSERT INTO section_assignments 
-            (teacherID, subjectID, sectionID, roomID, day, startTime, endTime, notes )
-            VALUES ($teacherID, $subjectID, $sectionID, $roomID, '$day', '$startTime', '$endTime', '$notes')
-            ";
-            $result = mysqli_query($connections, $sql);
-
-     if ($result) {
-        echo "
-        <script>
-            alert('Section Assignemnt added successfully!');
-            window.location.href = '" . $_SERVER['HTTP_REFERER'] . "';
-        </script>";
-    } else {
-        $error = addslashes(mysqli_error($connections));
-        echo "
-        <script>
-            alert('Error adding section Assignment: $error');
-            window.location.href = '" . $_SERVER['HTTP_REFERER'] . "';
-        </script>";
-    }
-
-
-        }
-
-       public function updateAssignment($assignmentID, $teacherID, $subjectID, $sectionID, $roomID, $day, $startTime, $endTime, $notes) {
     global $connections;
 
+    // 1. Check Teacher Conflict
+    $checkTeacher = mysqli_query($connections, "
+        SELECT * FROM section_assignments
+        WHERE teacherID = $teacherID
+        AND day = '$day'
+        AND ('$startTime' < endTime AND startTime < '$endTime')
+    ");
+
+    if(mysqli_num_rows($checkTeacher) > 0){
+        echo "<script>alert('❌ Conflict: Teacher is already assigned in this time slot.'); window.history.back();</script>";
+        exit;
+    }
+
+    // 2. Check Section Conflict
+    $checkSection = mysqli_query($connections, "
+        SELECT * FROM section_assignments
+        WHERE sectionID = $sectionID
+        AND day = '$day'
+        AND ('$startTime' < endTime AND startTime < '$endTime')
+    ");
+
+    if(mysqli_num_rows($checkSection) > 0){
+        echo "<script>alert('❌ Conflict: This section already has a class scheduled at this time.'); window.history.back();</script>";
+        exit;
+    }
+
+    // 3. Check Room Conflict
+    $checkRoom = mysqli_query($connections, "
+        SELECT * FROM section_assignments
+        WHERE roomID = $roomID
+        AND day = '$day'
+        AND ('$startTime' < endTime AND startTime < '$endTime')
+    ");
+
+    if(mysqli_num_rows($checkRoom) > 0){
+        echo "<script>alert('❌ Conflict: Room is already being used at this time.'); window.history.back();</script>";
+        exit;
+    }
+
+    // ✅ If No Conflicts → Proceed Insert
+    $sql = "INSERT INTO section_assignments 
+            (teacherID, subjectID, sectionID, roomID, day, startTime, endTime, notes )
+            VALUES ($teacherID, $subjectID, $sectionID, $roomID, '$day', '$startTime', '$endTime', '$notes')";
+    $result = mysqli_query($connections, $sql);
+
+    if ($result) {
+        echo "<script>alert('✅ Section Assignment added successfully!'); window.location.href='" . $_SERVER['HTTP_REFERER'] . "';</script>";
+    } else {
+        $error = addslashes(mysqli_error($connections));
+        echo "<script>alert('❌ Error: $error'); window.location.href='" . $_SERVER['HTTP_REFERER'] . "';</script>";
+    }
+}
+
+
+     public function updateAssignment($assignmentID, $teacherID, $subjectID, $sectionID, $roomID, $day, $startTime, $endTime, $notes) {
+    global $connections;
+
+    // Exclude current assignment when checking conflict
+    $exclude = "AND assignmentID != $assignmentID";
+
+    // 1. Teacher conflict
+    $checkTeacher = mysqli_query($connections, "
+        SELECT * FROM section_assignments
+        WHERE teacherID = $teacherID
+        AND day = '$day'
+        AND ('$startTime' < endTime AND startTime < '$endTime')
+        $exclude
+    ");
+    if(mysqli_num_rows($checkTeacher) > 0){
+        echo "<script>alert('❌ Conflict: Teacher already has a class in this time slot.'); window.history.back();</script>";
+        exit;
+    }
+
+    // 2. Section conflict
+    $checkSection = mysqli_query($connections, "
+        SELECT * FROM section_assignments
+        WHERE sectionID = $sectionID
+        AND day = '$day'
+        AND ('$startTime' < endTime AND startTime < '$endTime')
+        $exclude
+    ");
+    if(mysqli_num_rows($checkSection) > 0){
+        echo "<script>alert('❌ Conflict: Section already has a class at this time.'); window.history.back();</script>";
+        exit;
+    }
+
+    // 3. Room conflict
+    $checkRoom = mysqli_query($connections, "
+        SELECT * FROM section_assignments
+        WHERE roomID = $roomID
+        AND day = '$day'
+        AND ('$startTime' < endTime AND startTime < '$endTime')
+        $exclude
+    ");
+    if(mysqli_num_rows($checkRoom) > 0){
+        echo "<script>alert('❌ Conflict: The room is already used at this time.'); window.history.back();</script>";
+        exit;
+    }
+
+    // ✅ Safe to update
     $sql = "UPDATE section_assignments 
             SET teacherID = $teacherID, 
                 subjectID = $subjectID, 
@@ -449,21 +526,12 @@ public function fetchSectionList(){
     $result = mysqli_query($connections, $sql);
 
     if ($result) {
-        echo "
-        <script>
-            alert('Section Assignment updated successfully!');
-            window.location.href = '" . $_SERVER['HTTP_REFERER'] . "';
-        </script>";
+        echo "<script>alert('✅ Section Assignment updated successfully!'); window.location.href='" . $_SERVER['HTTP_REFERER'] . "';</script>";
     } else {
         $error = addslashes(mysqli_error($connections));
-        echo "
-        <script>
-            alert('Error updating section assignment: $error');
-            window.location.href = '" . $_SERVER['HTTP_REFERER'] . "';
-        </script>";
+        echo "<script>alert('❌ Error updating assignment: $error'); window.location.href='" . $_SERVER['HTTP_REFERER'] . "';</script>";
     }
 }
-
         public function deleteAssignment($assignmentID) {
     global $connections;
 
@@ -513,29 +581,60 @@ public function getAllAssignments() {
 }
 
 class student {
-    public function addStudent($studentuserID, $sectionID, $student_name, $gender){
-        global $connections;
+   public function addStudent($studentuserID, $sectionID, $student_name, $gender){
+    global $connections;
 
-        $sql = "INSERT INTO section_list_tbl (studentuserID, sectionID, student_name, gender)
-                VALUES ('$studentuserID', '$sectionID', '$student_name', '$gender')";
-        $result = mysqli_query($connections, $sql);
+    // 1. Get capacity of the section's room
+    $capacityQuery = mysqli_query($connections, "
+        SELECT r.capacity
+        FROM section_tbl s
+        LEFT JOIN room_tbl r ON s.roomID = r.roomID
+        WHERE s.sectionID = '$sectionID'
+    ");
 
-        if ($result) {
-            echo "
-            <script>
-                alert('Student added successfully!');
-                window.location.href = '" . $_SERVER['HTTP_REFERER'] . "';
-            </script>";
-        } else {
-            $error = addslashes(mysqli_error($connections));
-            echo "
-            <script>
-                alert('Error adding student: $error');
-                window.location.href = '" . $_SERVER['HTTP_REFERER'] . "';
-            </script>";
-        }
+    $capacityRow = mysqli_fetch_assoc($capacityQuery);
+    $capacity = isset($capacityRow['capacity']) ? (int)$capacityRow['capacity'] : 0;
+
+    // 2. Count current students in that section
+    $countQuery = mysqli_query($connections, "
+        SELECT COUNT(*) AS studentCount
+        FROM section_list_tbl
+        WHERE sectionID = '$sectionID'
+    ");
+    $countRow = mysqli_fetch_assoc($countQuery);
+    $studentCount = (int)$countRow['studentCount'];
+
+    // 3. Check if room is full
+    if ($capacity > 0 && $studentCount >= $capacity) {
+        echo "
+        <script>
+            alert('❌ Cannot add student — Room capacity reached ($studentCount / $capacity).');
+            window.history.back();
+        </script>";
+        exit;
     }
 
+    // 4. If not full → Proceed insert
+    $sql = "INSERT INTO section_list_tbl (studentuserID, sectionID, student_name, gender)
+            VALUES ('$studentuserID', '$sectionID', '$student_name', '$gender')";
+    
+    $result = mysqli_query($connections, $sql);
+
+    if ($result) {
+        echo "
+        <script>
+            alert('✅ Student added successfully!');
+            window.location.href = '" . $_SERVER['HTTP_REFERER'] . "';
+        </script>";
+    } else {
+        $error = addslashes(mysqli_error($connections));
+        echo "
+        <script>
+            alert('❌ Error adding student: $error');
+            window.location.href = '" . $_SERVER['HTTP_REFERER'] . "';
+        </script>";
+    }
+}
 public function modifyStudent($studentID, $student_name, $gender){
     global $connections;
 
@@ -719,26 +818,56 @@ $sql = "
 public function assignsubject($assignmentID, $id){
     global $connections;
 
+    // 1. Get day + time of the class the student is trying to add
+    $target = mysqli_fetch_assoc(mysqli_query($connections, "
+        SELECT day, startTime, endTime 
+        FROM section_assignments 
+        WHERE assignmentID = $assignmentID
+    "));
+
+    $day = $target['day'];
+    $startTime = $target['startTime'];
+    $endTime = $target['endTime'];
+
+    // 2. Check if student already has a subject at the same day & overlapping time
+    $checkConflict = mysqli_query($connections, "
+        SELECT ss.student_subject_id, sa.subjectID, sa.sectionID
+        FROM student_subject_tbl ss
+        INNER JOIN section_assignments sa ON ss.assignmentID = sa.assignmentID
+        WHERE ss.studentID = $id
+        AND sa.day = '$day'
+        AND ('$startTime' < sa.endTime AND sa.startTime < '$endTime')
+    ");
+
+    if(mysqli_num_rows($checkConflict) > 0){
+        echo "
+        <script>
+            alert('❌ Conflict: Student already enrolled in a subject scheduled during this time.');
+            window.history.back();
+        </script>";
+        exit;
+    }
+
+    // 3. If no conflicts → proceed to enroll student
     $sql = "INSERT INTO student_subject_tbl (assignmentID, studentID) VALUES ($assignmentID, $id)";
     $result = mysqli_query($connections, $sql);
 
-      if ($result){
-            echo "
-            <script>
-                alert('Subject Added Successfully!');
-                window.location.href = '" . $_SERVER['HTTP_REFERER'] . "';
-            </script>";
-        } else {
-            $error = addslashes(mysqli_error($connections));
-            echo "
-            <script>
-                alert('Subject Add Failed: $error');
-                window.location.href = '" . $_SERVER['HTTP_REFERER'] . "';
-            </script>";
-        }
-
-    
+    if ($result){
+        echo "
+        <script>
+            alert('✅ Subject Assigned Successfully!');
+            window.location.href = '" . $_SERVER['HTTP_REFERER'] . "';
+        </script>";
+    } else {
+        $error = addslashes(mysqli_error($connections));
+        echo "
+        <script>
+            alert('❌ Failed to Assign Subject: $error');
+            window.location.href = '" . $_SERVER['HTTP_REFERER'] . "';
+        </script>";
+    }
 }
+
 
 public function getstudent ($studentID){
 

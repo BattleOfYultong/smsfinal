@@ -31,7 +31,9 @@
                     <th class="px-4 py-3">School Year</th>
                     <th class="px-4 py-3">Semester</th>
                     <th class="px-4 py-3">Room</th>
+                    <th class="px-4 py-3">Capacity</th>
                     <th class="px-4 py-3 text-center">Actions</th>
+
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-100">
@@ -45,10 +47,28 @@
                     <td class="px-4 py-2"><?php echo htmlspecialchars($sections['sectionName']) ?></td>
                     <td class="px-4 py-2"><?php echo htmlspecialchars($sections['yearLevel']) ?></td>
                     <td class="px-4 py-2"><?php echo htmlspecialchars($sections['course']) ?></td>
-                    <td class="px-4 py-2"><?php echo htmlspecialchars($sections['username']) ?></td>
+                    <td class="px-4 py-2"><?php echo htmlspecialchars($sections['adviserName']) ?></td>
                     <td class="px-4 py-2"><?php echo htmlspecialchars($sections['schoolYear']) ?></td>
                     <td class="px-4 py-2"><?php echo htmlspecialchars($sections['semester']) ?></td>
-                     <td class="px-4 py-2"><?php echo htmlspecialchars($sections['roomName']) ?></td>
+                    <td class="px-4 py-2"><?php echo htmlspecialchars($sections['roomName']) ?></td>
+                   <?php 
+$capacity = $sections['capacity'];
+$students = $sections['studentCount'];
+
+$ratio = $students / $capacity;
+
+if($students >= $capacity){
+    $color = "text-red-500 font-bold "; // full
+} elseif($ratio >= 0.5){
+    $color = "text-yellow-400 font-bold"; // half
+} else {
+    $color = "text-green-900 font-bold"; // good
+}
+?>
+
+<td class="px-4 py-2 <?php echo $color; ?>">
+    <?php echo $students . " / " . $capacity; ?>
+</td>
                     <td class="px-4 py-2 text-center space-x-3">
                           <button 
             class="text-blue-600 hover:text-blue-800 font-medium"
