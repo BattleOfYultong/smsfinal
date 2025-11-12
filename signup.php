@@ -55,7 +55,7 @@ include('connections/connections.php');
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-cover bg-center bg-no-repeat min-h-screen flex items-center justify-center font-sans"
+<body class="bg-cover p-5 bg-center bg-no-repeat min-h-screen flex items-center justify-center font-sans"
   style="background-image: linear-gradient(rgba(250, 250, 250, 0.937), rgba(8, 52, 117, 0.942)), url('img.jpg');">
 
   <div class="bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl max-w-5xl w-full mx-4 flex flex-col md:flex-row overflow-hidden border border-gray-200">

@@ -18,6 +18,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     exit;
   }
 
+  if (isset($_POST['cloneExam'])) {
+    $originalExamID = $_POST['originalExamID'] ?? 0;
+    $newInvigilatorID = $_POST['newInvigilatorID'] ?? 0;
+
+    $exam->cloneExam($originalExamID, $newInvigilatorID);
+}
+
   if (isset($_POST['editExam'])) {
         // Get the submitted form data
         $examID = $_POST['examID'];

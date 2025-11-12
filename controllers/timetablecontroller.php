@@ -213,6 +213,67 @@ class ExamTimetable {
     }
 
 
+    public function cloneExam($originalExamID, $newInvigilatorID) {
+    global $connections;
+
+    $originalExamID = intval($originalExamID);
+    $newInvigilatorID = intval($newInvigilatorID);
+
+    // 1️⃣ Fetch original exam schedule
+    $query = mysqli_query($connections, "SELECT * FROM exam_timetable WHERE examID = $originalExamID");
+    $original = mysqli_fetch_assoc($query);
+
+    if (!$original) {
+        echo "<script>
+            alert('❌ Original exam schedule not found.');
+            window.history.back();
+        </script>";
+        exit;
+    }
+
+    $subjectID = $original['subjectID'];
+    $sectionID = $original['sectionID'];
+    $roomID = $original['roomID'];
+    $examDate = $original['examDate'];
+    $startTime = $original['startTime'];
+    $endTime = $original['endTime'];
+
+    // 2️⃣ Optional: Check if new invigilator already has an exam at this date/time
+    $checkInvigilator = mysqli_query($connections, "
+        SELECT * FROM exam_timetable
+        WHERE invigilatorID = $newInvigilatorID
+        AND examDate = '$examDate'
+        AND ('$startTime' < endTime AND startTime < '$endTime')
+    ");
+    if (mysqli_num_rows($checkInvigilator) > 0) {
+        echo "<script>
+            alert('❌ Conflict: This invigilator already has an exam at this time.');
+            window.history.back();
+        </script>";
+        exit;
+    }
+
+    // 3️⃣ Insert cloned exam
+    $insert = mysqli_query($connections, "
+        INSERT INTO exam_timetable
+        (subjectID, sectionID, roomID, examDate, startTime, endTime, invigilatorID)
+        VALUES ($subjectID, $sectionID, $roomID, '$examDate', '$startTime', '$endTime', $newInvigilatorID)
+    ");
+
+    if ($insert) {
+        echo "<script>
+            alert('✅ Exam schedule cloned successfully!');
+            window.location.href='" . $_SERVER['HTTP_REFERER'] . "';
+        </script>";
+    } else {
+        $error = addslashes(mysqli_error($connections));
+        echo "<script>
+            alert('❌ Error cloning exam schedule: $error');
+            window.history.back();
+        </script>";
+    }
+}
+
 
 }
 

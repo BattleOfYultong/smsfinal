@@ -408,11 +408,11 @@ public function fetchSectionList(){
         return $getsectionList;
 }
 
- public function createAssignment($teacherID, $subjectID, $sectionID, $roomID, 
-        $day, $startTime, $endTime, $notes){
+public function createAssignment($teacherID, $subjectID, $sectionID, $roomID, 
+    $day, $startTime, $endTime, $notes) {
     global $connections;
 
-    // 1. Check Teacher Conflict
+    // 🧩 1. Check Teacher Conflict (same teacher, overlapping time)
     $checkTeacher = mysqli_query($connections, "
         SELECT * FROM section_assignments
         WHERE teacherID = $teacherID
@@ -420,12 +420,12 @@ public function fetchSectionList(){
         AND ('$startTime' < endTime AND startTime < '$endTime')
     ");
 
-    if(mysqli_num_rows($checkTeacher) > 0){
-        echo "<script>alert('❌ Conflict: Teacher is already assigned in this time slot.'); window.history.back();</script>";
+    if (mysqli_num_rows($checkTeacher) > 0) {
+        echo "<script>alert('❌ Conflict: This teacher already has a class during this time.'); window.history.back();</script>";
         exit;
     }
 
-    // 2. Check Section Conflict
+    // 🧩 2. Check Section Conflict (same section, overlapping time — any teacher)
     $checkSection = mysqli_query($connections, "
         SELECT * FROM section_assignments
         WHERE sectionID = $sectionID
@@ -433,12 +433,12 @@ public function fetchSectionList(){
         AND ('$startTime' < endTime AND startTime < '$endTime')
     ");
 
-    if(mysqli_num_rows($checkSection) > 0){
+    if (mysqli_num_rows($checkSection) > 0) {
         echo "<script>alert('❌ Conflict: This section already has a class scheduled at this time.'); window.history.back();</script>";
         exit;
     }
 
-    // 3. Check Room Conflict
+    // 🧩 3. Check Room Conflict (same room, overlapping time — any teacher)
     $checkRoom = mysqli_query($connections, "
         SELECT * FROM section_assignments
         WHERE roomID = $roomID
@@ -446,15 +446,16 @@ public function fetchSectionList(){
         AND ('$startTime' < endTime AND startTime < '$endTime')
     ");
 
-    if(mysqli_num_rows($checkRoom) > 0){
-        echo "<script>alert('❌ Conflict: Room is already being used at this time.'); window.history.back();</script>";
+    if (mysqli_num_rows($checkRoom) > 0) {
+        echo "<script>alert('❌ Conflict: This room is already booked for that time.'); window.history.back();</script>";
         exit;
     }
 
-    // ✅ If No Conflicts → Proceed Insert
+    // ✅ If No Conflicts → Insert Schedule
     $sql = "INSERT INTO section_assignments 
-            (teacherID, subjectID, sectionID, roomID, day, startTime, endTime, notes )
+            (teacherID, subjectID, sectionID, roomID, day, startTime, endTime, notes)
             VALUES ($teacherID, $subjectID, $sectionID, $roomID, '$day', '$startTime', '$endTime', '$notes')";
+    
     $result = mysqli_query($connections, $sql);
 
     if ($result) {
@@ -464,6 +465,57 @@ public function fetchSectionList(){
         echo "<script>alert('❌ Error: $error'); window.location.href='" . $_SERVER['HTTP_REFERER'] . "';</script>";
     }
 }
+
+public function cloneAssignment($originalID, $newTeacherID, $notes = '') {
+    global $connections;
+
+    // Sanitize inputs
+    $originalID = intval($originalID);
+    $newTeacherID = intval($newTeacherID);
+    $notes = addslashes($notes);
+
+    // 0️⃣ Fetch original schedule
+    $query = mysqli_query($connections, "SELECT * FROM section_assignments WHERE assignmentID = $originalID");
+    $original = mysqli_fetch_assoc($query);
+
+    if (!$original) {
+        echo "<script>alert('❌ Original schedule not found.'); window.history.back();</script>";
+        exit;
+    }
+
+    $subjectID = $original['subjectID'];
+    $sectionID = $original['sectionID'];
+    $roomID = $original['roomID'];
+    $day = $original['day'];
+    $startTime = $original['startTime'];
+    $endTime = $original['endTime'];
+
+    // 1️⃣ Teacher conflict only (skip section/room)
+    $checkTeacher = mysqli_query($connections, "
+        SELECT * FROM section_assignments
+        WHERE teacherID = $newTeacherID
+        AND day = '$day'
+        AND ('$startTime' < endTime AND startTime < '$endTime')
+    ");
+    if (mysqli_num_rows($checkTeacher) > 0) {
+        echo "<script>alert('❌ Conflict: Teacher already has a class in this time slot.'); window.history.back();</script>";
+        exit;
+    }
+
+    // ✅ Insert cloned assignment
+    $sql = "INSERT INTO section_assignments
+            (teacherID, subjectID, sectionID, roomID, day, startTime, endTime, notes)
+            VALUES ($newTeacherID, $subjectID, $sectionID, $roomID, '$day', '$startTime', '$endTime', '$notes')";
+    $result = mysqli_query($connections, $sql);
+
+    if ($result) {
+        echo "<script>alert('✅ Schedule cloned successfully!'); window.location.href='" . $_SERVER['HTTP_REFERER'] . "';</script>";
+    } else {
+        $error = addslashes(mysqli_error($connections));
+        echo "<script>alert('❌ Error cloning schedule: $error'); window.history.back();</script>";
+    }
+}
+
 
 
      public function updateAssignment($assignmentID, $teacherID, $subjectID, $sectionID, $roomID, $day, $startTime, $endTime, $notes) {

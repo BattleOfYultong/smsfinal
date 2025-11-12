@@ -60,6 +60,10 @@
                     <button data-id ="<?= $assign['assignmentID'] ?>" class="text-red-600 hover:text-red-800 font-medium deleteBtnAssignment">
                         Delete
                     </button>
+
+                    <button data-modal-target="cloneSectionModal_<?= $assign['assignmentID'] ?>" data-modal-toggle="cloneSectionModal_<?= $assign['assignmentID'] ?>" class="text-violet-600 hover:text-red-800 font-medium">
+                        Clone Schedule
+                    </button>
                 </td>
             </tr>
             <?php endforeach ?>
@@ -332,6 +336,100 @@
         </div>
     </div>
 <?php endforeach; ?>
+
+
+
+
+<?php foreach ($assignments as $assign): ?>
+    <!-- Clone Section Modal -->
+    <div id="cloneSectionModal_<?= $assign['assignmentID'] ?>" tabindex="-1" aria-hidden="true"
+        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 
+        justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+
+        <div class="relative p-4 w-full max-w-2xl max-h-full">
+            <div class="relative bg-white rounded-2xl shadow-lg border border-blue-200 overflow-hidden">
+                
+                <!-- Header -->
+                <div class="flex justify-between items-center p-5 bg-blue-600">
+                    <h3 class="text-lg font-semibold text-white">Clone Schedule</h3>
+                    <button type="button" data-modal-hide="cloneSectionModal_<?= $assign['assignmentID'] ?>"
+                        class="text-white hover:bg-blue-700 rounded-lg text-sm w-8 h-8 flex justify-center items-center transition">
+                        ✕
+                    </button>
+                </div>
+
+                <!-- Modal Body -->
+                <form method="POST" action="../routes/sectionassignreal.php" class="p-6 space-y-6 text-blue-900">
+                    <input type="hidden" name="originalAssignmentID" value="<?= $assign['assignmentID'] ?>">
+
+                    <!-- Teacher Selection Only -->
+                    <div>
+                        <?php 
+                            $teacherlist = new professorAssign();
+                            $teachers = $teacherlist->getTeacherFromUsers();
+                        ?>
+                        <label class="block mb-2 font-semibold">Select New Teacher</label>
+                        <select name="newTeacherID" class="w-full border border-blue-300 rounded-lg px-3 py-2" required>
+                            <option value="">Select Teacher</option>
+                            <?php foreach($teachers as $teacher): ?>
+                                <?php if ($teacher['id'] != $assign['teacherID']): ?>
+                                    <option value="<?= $teacher['id'] ?>">
+                                        <?= htmlspecialchars($teacher['username']) ?>
+                                    </option>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <!-- Optional: show original schedule details as read-only -->
+                    <div class="grid grid-cols-2 gap-4 mt-4">
+                        <div>
+                            <label class="block mb-1 font-medium text-gray-700">Subject</label>
+                            <input type="text" value="<?= htmlspecialchars($assign['subjectName'] ?? $assign['subjectID']) ?>" readonly
+                                class="w-full border border-gray-300 rounded px-2 py-1 bg-gray-100">
+                        </div>
+                        <div>
+                            <label class="block mb-1 font-medium text-gray-700">Section</label>
+                            <input type="text" value="<?= htmlspecialchars($assign['sectionName'] ?? $assign['sectionID']) ?>" readonly
+                                class="w-full border border-gray-300 rounded px-2 py-1 bg-gray-100">
+                        </div>
+                        <div>
+                            <label class="block mb-1 font-medium text-gray-700">Room</label>
+                            <input type="text" value="<?= htmlspecialchars($assign['roomName'] ?? $assign['roomID']) ?>" readonly
+                                class="w-full border border-gray-300 rounded px-2 py-1 bg-gray-100">
+                        </div>
+                        <div>
+                            <label class="block mb-1 font-medium text-gray-700">Day / Time</label>
+                            <input type="text" value="<?= $assign['day'] ?> <?= $assign['startTime'] ?> - <?= $assign['endTime'] ?>" readonly
+                                class="w-full border border-gray-300 rounded px-2 py-1 bg-gray-100">
+                        </div>
+                    </div>
+
+                    <!-- Notes (optional to edit) -->
+                    <div>
+                        <label class="block mb-2 font-semibold">Additional Notes</label>
+                        <textarea name="notes" rows="3" class="w-full border border-blue-300 rounded-lg px-3 py-2"><?= htmlspecialchars($assign['notes']) ?></textarea>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="flex justify-end gap-4 pt-4 border-t border-blue-100">
+                        <button type="button" data-modal-hide="cloneSectionModal_<?= $assign['assignmentID'] ?>"
+                            class="px-4 py-2 rounded-lg border border-blue-400 text-blue-700 font-medium hover:bg-blue-50 transition">
+                            Cancel
+                        </button>
+                        <button name="cloneAssignment" type="submit"
+                            class="px-4 py-2 rounded-lg bg-blue-700 text-white font-medium hover:bg-blue-800 shadow-md transition">
+                            Clone Schedule
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+<?php endforeach; ?>
+
+
 
 
 <script>

@@ -22,6 +22,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $assignment->createAssignment($teacherID, $subjectID, $sectionID, $roomID, $day, $startTime, $endTime, $notes);
     }
 
+    if (isset($_POST['cloneAssignment'])) {
+    $originalID = $_POST['originalAssignmentID'] ?? 0;
+    $newTeacherID = $_POST['newTeacherID'] ?? 0;
+    $notes = $_POST['notes'] ?? '';
+
+   $assignment->cloneAssignment($originalID, $newTeacherID, $notes);
+    }
+
     // ✏️ Update existing assignment
     if (isset($_POST['updateAssignment'])) {
         $assignmentID = $_POST['assignmentID'];

@@ -89,6 +89,7 @@ include_once('../controllers/timetablecontroller.php')
             <td class="px-6 py-3"><?php echo htmlspecialchars($schedule['invigilator']) ?></td>
             <td class="px-6 py-3 text-center space-x-2">
               <button data-modal-target="editExamModal<?= $schedule['examID'] ?>" data-modal-toggle="editExamModal<?= $schedule['examID'] ?>" class="text-blue-600 hover:text-blue-800 font-medium">Edit</button>
+               <button data-modal-target="cloneExamModal<?= $schedule['examID'] ?>" data-modal-toggle="cloneExamModal<?= $schedule['examID'] ?>" class="text-blue-600 hover:text-blue-800 font-medium">Clone</button>
               <button data-id="<?= $schedule['examID'] ?>" class="text-red-600 hover:text-red-800 font-medium deleteBtnid">Delete</button>
             </td>
           </tr>
@@ -206,6 +207,38 @@ include_once('../controllers/timetablecontroller.php')
             </div>
 
         </div>
+    </div>
+</div>
+<?php endforeach; ?>
+
+
+<?php foreach ($examSchedules as $schedule): ?>
+<div id="cloneExamModal<?= $schedule['examID'] ?>" tabindex="-1" aria-hidden="true"
+     class="hidden fixed top-0 left-0 right-0 bottom-0 z-50 flex justify-center items-center bg-black bg-opacity-50">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
+        <h3 class="text-lg font-semibold mb-4">Clone Exam Schedule</h3>
+
+        <form method="POST" action="../routes/examtimetableroute.php">
+            <input type="hidden" name="originalExamID" value="<?= $schedule['examID'] ?>">
+
+            <label class="block mb-2 font-medium">Select New Invigilator</label>
+            <select name="newInvigilatorID" class="w-full border p-2 rounded-lg" required>
+                <option value="">Select Teacher</option>
+                <?php foreach ($teacher as $t): ?>
+                    <?php if ($t['id'] != $schedule['invigilatorID']): ?>
+                        <option value="<?= $t['id'] ?>"><?= htmlspecialchars($t['username']) ?></option>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </select>
+
+            <div class="mt-4 flex justify-end gap-2">
+                <button type="button" data-modal-hide="cloneExamModal<?= $schedule['examID'] ?>"
+                        class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400">Cancel</button>
+                <button type="submit" name="cloneExam" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                    Clone Exam
+                </button>
+            </div>
+        </form>
     </div>
 </div>
 <?php endforeach; ?>
