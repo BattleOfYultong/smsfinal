@@ -131,7 +131,7 @@ include_once('../controllers/timetablecontroller.php')
 
     <div class="overflow-x-auto">
       <table class="min-w-full border-collapse">
-        <thead class="bg-gray-100 text-gray-700 uppercase text-sm">
+        <thead class="bg-blue-600 text-white uppercase text-sm">
           <tr>
             <th class="px-6 py-3 text-left">Date</th>
             <th class="px-6 py-3 text-left">Subject</th>

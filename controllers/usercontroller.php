@@ -379,6 +379,7 @@ public function verifyOTP($enteredOTP) {
             header("Location: ../admin/dashboard.php");
             exit;
         } elseif ($_SESSION['role'] === 'Student') {
+             $_SESSION['greetings'] = "Welcome Back!";
             header("Location: ../student/dashboard.php");
             exit;
         } else {
