@@ -1,0 +1,24 @@
+
+/* Override dark mode for modals */
+.modal,
+.modal-box,
+[data-modal-target],
+[data-modal-toggle],
+#sectionModal {
+  background-color: #ffffff !important;
+  color: #1e3a8a !important;
+}
+
+#sectionModal .modal-box {
+  border: 1px solid #bfdbfe !important; /* blue-200 */
+  border-radius: 1rem !important;
+}
+
+#sectionModal button {
+  transition: all 0.3s ease;
+}
+
+/* Shadow and transitions */
+#sectionModal .modal-box {
+  box-shadow: 0 10px 25px rgba(30, 58, 138, 0.2) !important;
+}

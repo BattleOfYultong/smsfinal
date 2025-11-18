@@ -333,8 +333,9 @@ public function register($username, $email, $password, $confirmPassword, $photo)
                 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
                 // ✅ Insert new user into database
-                $stmt = $connections->prepare("INSERT INTO users (username, email, password, photo) VALUES (?, ?, ?, ?)");
-                $stmt->bind_param("ssss", $username, $email, $hashedPassword, $photoFileName);
+                $role = 'Student';
+                $stmt = $connections->prepare("INSERT INTO users (username, email, password, photo, role) VALUES (?, ?, ?, ?, ?)");
+                $stmt->bind_param("sssss", $username, $email, $hashedPassword, $photoFileName, $role );
 
                 if ($stmt->execute()) {
                     $successMsg = "Account created successfully! Redirecting to login...";
@@ -382,7 +383,13 @@ public function verifyOTP($enteredOTP) {
              $_SESSION['greetings'] = "Welcome Back!";
             header("Location: ../student/dashboard.php");
             exit;
-        } else {
+        }
+        elseif ($_SESSION['role'] === 'Teacher') {
+             $_SESSION['greetings'] = "Welcome Back!";
+            header("Location: ../teacher/dashboard.php");
+            exit;
+        }
+         else {
             // fallback for other roles
             header("Location: ../index.php");
             exit;
