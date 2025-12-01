@@ -6,8 +6,7 @@
   <title>School Management System</title>
   <link rel="icon" type="image/png" href="../img/sms.png" />
   <link rel="stylesheet" href="../css/sms(1).css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+     <?php include('landingheader.php') ?>
 </head>
 
 <?php
@@ -68,16 +67,12 @@ include('connections/connections.php');
   </div>
 
   <!-- Headings -->
-  <h1 class="text-3xl md:text-4xl font-extrabold text-blue-900">Join Us at</h1>
+  
   <h2 class="text-4xl md:text-5xl font-extrabold text-blue-700 leading-tight">
     SCHOOL MANAGEMENT SYSTEM
   </h2>
 
-  <!-- Description -->
-  <p class="text-gray-700 max-w-md">
-    Sign up to manage research proposals, track statuses, assign advisers and panels, and explore
-    AI-powered categorization — all in one place.
-  </p>
+  
 </div>
 
 

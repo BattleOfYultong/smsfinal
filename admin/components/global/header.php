@@ -1,11 +1,15 @@
- <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="icon" type="image/png" href="../img/sms.png" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
 
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="../dependencies/tailwind.js"></script>
+<link rel="icon" type="image/png" href="../img/sms.png" />
+<link rel="stylesheet" href="../dependencies/all.min.css">
+<script src="../dependencies/chart.js"></script>
+<script src="../dependencies/flowbite.min.js"></script>
+<link rel="stylesheet" href="../dependencies/flowbite.min.css">
 <link href="modal.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css' rel='stylesheet' />
-<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js'></script>
+<script src="../dependencies/sweetalert2@11.js"></script>
+<script src="../dependencies/calendar.global.min.js"></script>
+<script src="../dependencies/html2pdf.bundle.min.js"></script>
+
+

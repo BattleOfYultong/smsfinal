@@ -1,53 +1,58 @@
-  
-  
-  
-  <div class="bg-white border border-gray-200 rounded-xl shadow-md p-6">
-            <!-- Header -->
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4 space-y-3 md:space-y-0">
-                <h3 class="text-lg font-semibold text-gray-800">Student List For Section <?php echo  $section['sectionName'] ?></h3>
+<div class="bg-white border border-gray-200 rounded-xl shadow-md p-6">
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4 space-y-3 md:space-y-0">
+        <h3 class="text-lg font-semibold text-gray-800">Student List For Section <?php echo  $section['sectionName'] ?></h3>
 
-                <!-- Search + Add Button -->
-                <div class="flex items-center gap-2 relative w-full md:w-auto">
-                    <div class="relative w-full md:w-64">
-                        <input
-                            id="courseInput"
-                            type="text"
-                            placeholder="Type course or 'ALL' to view all"
-                            class="block w-full text-sm rounded-lg border border-gray-300 p-2.5 focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400"
-                            autocomplete="off"
-                        />
-                        <ul
-                            id="autocompleteList"
-                            class="absolute top-full left-0 right-0 bg-white border border-gray-300 rounded-lg mt-1 max-h-40 overflow-y-auto hidden z-50"
-                        ></ul>
-                    </div>
-
-                    <button
-                        data-modal-target="studentModal"
-                        data-modal-toggle="studentModal"
-                        class="text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2.5 transition-all"
-                    >
-                        Add Student
-                    </button>
-                </div>
+        <!-- Search + Add Button + PDF Button -->
+        <div class="flex items-center gap-2 relative w-full md:w-auto">
+            <div class="relative w-full md:w-64">
+                <input
+                    id="courseInput"
+                    type="text"
+                    placeholder="Type course or 'ALL' to view all"
+                    class="block w-full text-sm rounded-lg border border-gray-300 p-2.5 focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400"
+                    autocomplete="off"
+                />
+                <ul
+                    id="autocompleteList"
+                    class="absolute top-full left-0 right-0 bg-white border border-gray-300 rounded-lg mt-1 max-h-40 overflow-y-auto hidden z-50"
+                ></ul>
             </div>
 
-            <!-- Student Table -->
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm text-left border border-gray-200">
-                    <thead class="text-xs uppercase bg-indigo-600 text-white">
-                        <tr>
-                            <th scope="col" class="px-4 py-3">ID</th>
-                            <th scope="col" class="px-4 py-3">Name</th>
-                            <th scope="col" class="px-4 py-3">Gender</th>
-                            <th scope="col" class="px-4 py-3">Program</th>
-                            <th scope="col" class="px-4 py-3">Year & Course</th>
-                            <th scope="col" class="px-4 py-3">Adviser</th>
-                            <th scope="col" class="px-4 py-3">Room</th>
-                            <th scope="col" class="px-4 py-3 text-center">Action</th>
-                        </tr>
-                    </thead>
-                 <tbody id="studentTableBody" class="divide-y divide-gray-100">
+            <button
+                data-modal-target="studentModal"
+                data-modal-toggle="studentModal"
+                class="text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2.5 transition-all"
+            >
+                Add Student
+            </button>
+
+            <!-- Changed to Preview PDF Button -->
+            <button
+                id="previewPdfBtn"
+                class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2.5 transition-all"
+            >
+                Preview PDF
+            </button>
+        </div>
+    </div>
+
+    <!-- Student Table -->
+    <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left border border-gray-200">
+            <thead class="text-xs uppercase bg-indigo-600 text-white">
+                <tr>
+                    <th scope="col" class="px-4 py-3">ID</th>
+                    <th scope="col" class="px-4 py-3">Name</th>
+                    <th scope="col" class="px-4 py-3">Gender</th>
+                    <th scope="col" class="px-4 py-3">Program</th>
+                    <th scope="col" class="px-4 py-3">Year & Course</th>
+                    <th scope="col" class="px-4 py-3">Adviser</th>
+                    <th scope="col" class="px-4 py-3">Room</th>
+                    <th scope="col" class="px-4 py-3 text-center">Action</th>
+                </tr>
+            </thead>
+        <tbody id="studentTableBody" class="divide-y divide-gray-100">
 <?php 
     $studentObj = new student();
     $students = $studentObj->studentlistinsection($sectionID);
@@ -134,95 +139,126 @@
 ?>
 </tbody>
 
-                </table>
-            </div>
-        </div>
-
-
-       <div id="studentModal" tabindex="-1" aria-hidden="true"
-    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 
-        justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-    <div class="relative p-4 w-full max-w-2xl max-h-full">
-        <div class="relative bg-white rounded-2xl shadow-lg border border-blue-200 overflow-hidden">
-            
-            <!-- Header -->
-            <div class="flex justify-between items-center p-5 bg-blue-600">
-                <h3 class="text-lg font-semibold text-white">Add New Student</h3>
-                <button type="button" data-modal-hide="studentModal"
-                    class="text-white hover:bg-blue-700 rounded-lg text-sm w-8 h-8 flex justify-center items-center transition">
-                    ✕
-                </button>
-            </div>
-
-            <!-- Body -->
-            <form id="addStudentForm" action="../routes/addstudentroute.php?section=<?php echo $_GET['section']; ?>" method="POST" class="p-6 space-y-6 text-blue-900">
-
-                <!-- Student User ID (optional) -->
-               <div>
-                <?php 
-                $studentlist = new student();
-                $studentlist = $studentlist->getStudentFromUsers();
-                
-                ?>
-    <label class="block mb-2 font-semibold">Student User ID (optional)</label>
-    <select name="studentuserID" 
-        class="w-full border border-blue-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500">
-        <option value=""></option>
-        <?php foreach($studentlist as $students): ?>
-        <option value="<?php echo htmlspecialchars($students['id']) ?>"><?php echo htmlspecialchars($students['username']) ?></option>
-        <?php endforeach ?>
-    </select>
-</div>
-
-                <!-- Student Name -->
-                <div>
-                    <label class="block mb-2 font-semibold">Full Name</label>
-                    <input type="text" name="student_name" placeholder="e.g. Juan Dela Cruz" required
-                        class="w-full border border-blue-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500">
-                </div>
-
-                <!-- Gender -->
-                <div>
-                    <label class="block mb-2 font-semibold">Gender</label>
-                    <select name="gender" required
-                        class="w-full border border-blue-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500">
-                        <option value="">Select Gender</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                    </select>
-                </div>
-
-                <!-- Section -->
-                <div>
-                    <label class="block mb-2 font-semibold">Section</label>
-                    <select name="sectionID" required
-                        class="w-full border border-blue-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500">
-                        <option value="<?php echo $section['sectionID'] ?>"><?php echo $section['sectionName'] ?></option>
-                    </select>
-                </div>
-
-                <!-- Footer Buttons -->
-                <div class="flex justify-end gap-4 pt-4 border-t border-blue-100">
-                    <button type="button" data-modal-hide="studentModal"
-                        class="px-4 py-2 rounded-lg border border-blue-400 text-blue-700 font-medium hover:bg-blue-50 transition">
-                        Cancel
-                    </button>
-                    <button name="addStudent" type="submit"
-                        class="px-4 py-2 rounded-lg bg-blue-700 text-white font-medium hover:bg-blue-800 shadow-md transition">
-                        Save Student
-                    </button>
-                </div>
-            </form>
-        </div>
+        </table>
     </div>
 </div>
 
 
+<div id="studentModal" tabindex="-1" aria-hidden="true"
+class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 
+    justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+<div class="relative p-4 w-full max-w-2xl max-h-full">
+    <div class="relative bg-white rounded-2xl shadow-lg border border-blue-200 overflow-hidden">
+        
+        <!-- Header -->
+        <div class="flex justify-between items-center p-5 bg-blue-600">
+            <h3 class="text-lg font-semibold text-white">Add New Student</h3>
+            <button type="button" data-modal-hide="studentModal"
+                class="text-white hover:bg-blue-700 rounded-lg text-sm w-8 h-8 flex justify-center items-center transition">
+                ✕
+            </button>
+        </div>
+
+        <!-- Body -->
+        <form id="addStudentForm" action="../routes/addstudentroute.php?section=<?php echo $_GET['section']; ?>" method="POST" class="p-6 space-y-6 text-blue-900">
+
+            <!-- Student User ID (optional) -->
+        <div>
+            <?php 
+            $studentlist = new student();
+            $studentlist = $studentlist->getStudentFromUsers();
+            
+            ?>
+<label class="block mb-2 font-semibold">Student User ID (optional)</label>
+<select name="studentuserID" 
+    class="w-full border border-blue-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500">
+    <option value=""></option>
+    <?php foreach($studentlist as $students): ?>
+    <option value="<?php echo htmlspecialchars($students['id']) ?>"><?php echo htmlspecialchars($students['username']) ?></option>
+    <?php endforeach ?>
+</select>
+</div>
+
+            <!-- Student Name -->
+            <div>
+                <label class="block mb-2 font-semibold">Full Name</label>
+                <input type="text" name="student_name" placeholder="e.g. Juan Dela Cruz" required
+                    class="w-full border border-blue-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500">
+            </div>
+
+            <!-- Gender -->
+            <div>
+                <label class="block mb-2 font-semibold">Gender</label>
+                <select name="gender" required
+                    class="w-full border border-blue-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500">
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            </div>
+
+            <!-- Section -->
+            <div>
+                <label class="block mb-2 font-semibold">Section</label>
+                <select name="sectionID" required
+                    class="w-full border border-blue-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500">
+                    <option value="<?php echo $section['sectionID'] ?>"><?php echo $section['sectionName'] ?></option>
+                </select>
+            </div>
+
+            <!-- Footer Buttons -->
+            <div class="flex justify-end gap-4 pt-4 border-t border-blue-100">
+                <button type="button" data-modal-hide="studentModal"
+                    class="px-4 py-2 rounded-lg border border-blue-400 text-blue-700 font-medium hover:bg-blue-50 transition">
+                    Cancel
+                </button>
+                <button name="addStudent" type="submit"
+                    class="px-4 py-2 rounded-lg bg-blue-700 text-white font-medium hover:bg-blue-800 shadow-md transition">
+                    Save Student
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+
+<!-- New PDF Preview Modal -->
+<div id="pdfPreviewModal" tabindex="-1" aria-hidden="true"
+    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 
+        justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-4xl max-h-full">
+        <div class="relative bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
+            
+            <!-- Header -->
+            <div class="flex justify-between items-center p-5 bg-gray-600">
+                <h3 class="text-lg font-semibold text-white">PDF Preview - Student List for Section <?php echo $section['sectionName']; ?></h3>
+                <button type="button" id="closePreviewModal"
+                    class="text-white hover:bg-gray-700 rounded-lg text-sm w-8 h-8 flex justify-center items-center transition">
+                    ✕
+                </button>
+            </div>
+
+            <!-- Body - Preview Content -->
+            <div id="previewContent" class="p-6 overflow-y-auto max-h-96">
+                <!-- Preview will be inserted here -->
+            </div>
+
+            <!-- Footer Buttons -->
+            <div class="flex justify-end gap-4 pt-4 border-t border-gray-100 p-6">
+                <button type="button" id="cancelPreview"
+                    class="px-4 py-2 rounded-lg border border-gray-400 text-gray-700 font-medium hover:bg-gray-50 transition">
+                    Cancel
+                </button>
+                <button id="generatePdfFromPreview"
+                    class="px-4 py-2 rounded-lg bg-red-700 text-white font-medium hover:bg-red-800 shadow-md transition">
+                    Generate PDF
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- EDIT MODAL FOR THIS STUDENT -->
- 
-
-
-
 
 <script>
     document.querySelectorAll('.deleteBtnSectionStudent').forEach(btn => {
@@ -243,4 +279,67 @@
         });
     });
 });
+
+// PDF Preview Functionality
+document.getElementById('previewPdfBtn').addEventListener('click', () => {
+    // Clone the table to modify for preview
+    const originalTable = document.querySelector('table');
+    const tableClone = originalTable.cloneNode(true);
+    
+    // Remove the Action column (last column)
+    const headers = tableClone.querySelectorAll('th');
+    const rows = tableClone.querySelectorAll('tr');
+    headers[headers.length - 1].remove(); // Remove Action header
+    rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        if (cells.length > 0) {
+            cells[cells.length - 1].remove(); // Remove Action cell
+        }
+    });
+    
+    // Create preview content
+    const previewContainer = document.createElement('div');
+    previewContainer.style.fontSize = '10px'; // Smaller font for more data
+    previewContainer.style.width = '100%';
+    previewContainer.innerHTML = `
+        <h2 style="text-align: center; margin-bottom: 10px;">Student List for Section <?php echo $section['sectionName']; ?></h2>
+        <div style="overflow-x: auto;">${tableClone.outerHTML}</div>
+    `;
+    
+    // Insert into preview modal
+    const previewContent = document.getElementById('previewContent');
+    previewContent.innerHTML = '';
+    previewContent.appendChild(previewContainer);
+    
+    // Show the modal
+    document.getElementById('pdfPreviewModal').classList.remove('hidden');
+});
+
+// Close preview modal
+document.getElementById('closePreviewModal').addEventListener('click', () => {
+    document.getElementById('pdfPreviewModal').classList.add('hidden');
+});
+
+document.getElementById('cancelPreview').addEventListener('click', () => {
+    document.getElementById('pdfPreviewModal').classList.add('hidden');
+});
+
+// Generate PDF from preview
+document.getElementById('generatePdfFromPreview').addEventListener('click', () => {
+    const previewContainer = document.querySelector('#previewContent > div');
+    const opt = {
+        margin: 0.5,
+        filename: 'Student_List_Section_<?php echo $section['sectionName']; ?>.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 1.5 },
+        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+    };
+    
+    html2pdf().set(opt).from(previewContainer).save().then(() => {
+        document.getElementById('pdfPreviewModal').classList.add('hidden'); // Close modal after generation
+    });
+});
 </script>
+
+<!-- Include html2pdf.js library (add this before the closing </body> tag in your HTML) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>

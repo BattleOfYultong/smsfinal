@@ -13,6 +13,13 @@
     class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-indigo-700">
     + Add Subject
 </button>
+
+            <!-- New Preview PDF Button -->
+            <button
+                id="previewPdfBtn"
+                class="bg-red-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-700">
+                Preview PDF
+            </button>
         </div>
     </div>
 
@@ -183,6 +190,42 @@ while($row = mysqli_fetch_assoc($subjects)) {
     </div>
 </div>
 
+<!-- New PDF Preview Modal -->
+<div id="pdfPreviewModal" tabindex="-1" aria-hidden="true"
+    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 
+        justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-4xl max-h-full">
+        <div class="relative bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
+            
+            <!-- Header -->
+            <div class="flex justify-between items-center p-5 bg-gray-600">
+                <h3 class="text-lg font-semibold text-white">PDF Preview - Subjects for <?php echo htmlspecialchars($student['username'])  ?></h3>
+                <button type="button" id="closePreviewModal"
+                    class="text-white hover:bg-gray-700 rounded-lg text-sm w-8 h-8 flex justify-center items-center transition">
+                    ✕
+                </button>
+            </div>
+
+            <!-- Body - Preview Content -->
+            <div id="previewContent" class="p-6 overflow-y-auto max-h-96">
+                <!-- Preview will be inserted here -->
+            </div>
+
+            <!-- Footer Buttons -->
+            <div class="flex justify-end gap-4 pt-4 border-t border-gray-100 p-6">
+                <button type="button" id="cancelPreview"
+                    class="px-4 py-2 rounded-lg border border-gray-400 text-gray-700 font-medium hover:bg-gray-50 transition">
+                    Cancel
+                </button>
+                <button id="generatePdfFromPreview"
+                    class="px-4 py-2 rounded-lg bg-red-700 text-white font-medium hover:bg-red-800 shadow-md transition">
+                    Generate PDF
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script>
 document.querySelectorAll('.deleteBtnsubjectassign').forEach(btn => {
@@ -203,4 +246,67 @@ document.querySelectorAll('.deleteBtnsubjectassign').forEach(btn => {
         });
     });
 });
-    </script>
+
+// PDF Preview Functionality
+document.getElementById('previewPdfBtn').addEventListener('click', () => {
+    // Clone the table to modify for preview
+    const originalTable = document.querySelector('#studentTable');
+    const tableClone = originalTable.cloneNode(true);
+    
+    // Remove the Actions column (last column)
+    const headers = tableClone.querySelectorAll('th');
+    const rows = tableClone.querySelectorAll('tr');
+    headers[headers.length - 1].remove(); // Remove Actions header
+    rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        if (cells.length > 0) {
+            cells[cells.length - 1].remove(); // Remove Actions cell
+        }
+    });
+    
+    // Create preview content
+    const previewContainer = document.createElement('div');
+    previewContainer.style.fontSize = '10px'; // Smaller font for more data
+    previewContainer.style.width = '100%';
+    previewContainer.innerHTML = `
+        <h2 style="text-align: center; margin-bottom: 10px;">Subjects for <?php echo htmlspecialchars($student['username'])  ?></h2>
+        <div style="overflow-x: auto;">${tableClone.outerHTML}</div>
+    `;
+    
+    // Insert into preview modal
+    const previewContent = document.getElementById('previewContent');
+    previewContent.innerHTML = '';
+    previewContent.appendChild(previewContainer);
+    
+    // Show the modal
+    document.getElementById('pdfPreviewModal').classList.remove('hidden');
+});
+
+// Close preview modal
+document.getElementById('closePreviewModal').addEventListener('click', () => {
+    document.getElementById('pdfPreviewModal').classList.add('hidden');
+});
+
+document.getElementById('cancelPreview').addEventListener('click', () => {
+    document.getElementById('pdfPreviewModal').classList.add('hidden');
+});
+
+// Generate PDF from preview
+document.getElementById('generatePdfFromPreview').addEventListener('click', () => {
+    const previewContainer = document.querySelector('#previewContent > div');
+    const opt = {
+        margin: 0.5,
+        filename: 'Subjects_for_<?php echo htmlspecialchars($student['username'])  ?>.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 1.5 },
+        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+    };
+    
+    html2pdf().set(opt).from(previewContainer).save().then(() => {
+        document.getElementById('pdfPreviewModal').classList.add('hidden'); // Close modal after generation
+    });
+});
+</script>
+
+<!-- Include html2pdf.js library (add this before the closing </body> tag in your HTML) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
