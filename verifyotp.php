@@ -101,26 +101,27 @@ unset($_SESSION['login_error']); // clear message after showing
     </div>
 
     <!-- OTP Form -->
-    <form method="POST" action="routes/userroutes.php" id="otpForm">
-      <label class="block text-gray-700 text-sm font-semibold mb-3 text-center sm:text-left">Enter Verification Code</label>
-      
-      <!-- OTP Input Fields -->
-      <div class="flex justify-center sm:justify-between flex-wrap gap-2 mb-6">
-        <input type="text" maxlength="1" class="otp-input w-10 h-12 sm:w-12 sm:h-14 text-center text-xl sm:text-2xl font-bold border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" data-index="0">
-        <input type="text" maxlength="1" class="otp-input w-10 h-12 sm:w-12 sm:h-14 text-center text-xl sm:text-2xl font-bold border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" data-index="1">
-        <input type="text" maxlength="1" class="otp-input w-10 h-12 sm:w-12 sm:h-14 text-center text-xl sm:text-2xl font-bold border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" data-index="2">
-        <input type="text" maxlength="1" class="otp-input w-10 h-12 sm:w-12 sm:h-14 text-center text-xl sm:text-2xl font-bold border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" data-index="3">
-        <input type="text" maxlength="1" class="otp-input w-10 h-12 sm:w-12 sm:h-14 text-center text-xl sm:text-2xl font-bold border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" data-index="4">
-        <input type="text" maxlength="1" class="otp-input w-10 h-12 sm:w-12 sm:h-14 text-center text-xl sm:text-2xl font-bold border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" data-index="5">
-      </div>
+   <form method="POST" action="routes/userroutes.php" id="otpForm">
+  <label class="block text-gray-700 text-sm font-semibold mb-3 text-center sm:text-left">Enter Verification Code</label>
+  
+  <!-- OTP Input Fields -->
+  <div class="flex justify-center sm:justify-between flex-wrap gap-2 mb-6">
+    <input type="text" maxlength="1" class="otp-input w-8 h-10 sm:w-10 sm:h-12 text-center text-lg sm:text-xl font-bold border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" data-index="0">
+    <input type="text" maxlength="1" class="otp-input w-8 h-10 sm:w-10 sm:h-12 text-center text-lg sm:text-xl font-bold border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" data-index="1">
+    <input type="text" maxlength="1" class="otp-input w-8 h-10 sm:w-10 sm:h-12 text-center text-lg sm:text-xl font-bold border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" data-index="2">
+    <input type="text" maxlength="1" class="otp-input w-8 h-10 sm:w-10 sm:h-12 text-center text-lg sm:text-xl font-bold border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" data-index="3">
+    <input type="text" maxlength="1" class="otp-input w-8 h-10 sm:w-10 sm:h-12 text-center text-lg sm:text-xl font-bold border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" data-index="4">
+    <input type="text" maxlength="1" class="otp-input w-8 h-10 sm:w-10 sm:h-12 text-center text-lg sm:text-xl font-bold border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" data-index="5">
+  </div>
 
-      <!-- Hidden input -->
-      <input type="hidden" name="otp" id="otpValue">
+  <!-- Hidden input -->
+  <input type="hidden" name="otp" id="otpValue">
 
-      <button type="submit" name="verify_otp" id="verifyBtn" class="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 sm:py-3.5 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
-        Verify Code
-      </button>
-    </form>
+  <button type="submit" name="verify_otp" id="verifyBtn" class="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2.5 sm:py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+    Verify Code
+  </button>
+</form>
+
 
     <!-- Resend Section -->
     <div class="mt-6 text-center">

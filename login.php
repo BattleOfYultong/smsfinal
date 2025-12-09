@@ -64,8 +64,8 @@ unset($_SESSION['login_error']); // clear message after showing
 <div id="loginSection" class="w-full max-w-md  p-8 text-left"> 
   <!-- Header -->
   <div class="mb-6 text-center">
-    <h2 class="text-2xl font-bold text-gray-800 mb-2">Welcome Back</h2>
-    <p class="text-gray-600 text-sm">Sign in to your account</p>
+    
+    <h1 class="text-black font-bold text-xl ">Sign in to your account</h1>
   </div>
 
   <?php if (!empty($errorMsg)): ?> 

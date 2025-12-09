@@ -1,6 +1,6 @@
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="../dependencies/fontawesome/css/all.min.css">
 <script src="../dependencies/tailwind.js"></script>
 <link rel="icon" type="image/png" href="../img/sms.png" />
 <link rel="stylesheet" href="../dependencies/all.min.css">
